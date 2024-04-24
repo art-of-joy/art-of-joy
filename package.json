@@ -1,0 +1,41 @@
+{
+    "name": "Lemur",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.tsx",
+    "scripts": {
+        "start": "webpack-dev-server --mode development --open --hot",
+        "build": "webpack --mode production"
+    },
+    "author": "Nikolay",
+    "license": "ISC",
+    "devDependencies": {
+        "@reduxjs/toolkit": "^1.9.5",
+        "@types/react": "^18.2.22",
+        "@types/react-dom": "^18.2.7",
+        "@types/uuid": "^9.0.8",
+        "axios": "^1.5.1",
+        "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.8.1",
+        "css-modules-typescript-loader": "^4.0.1",
+        "html-webpack-plugin": "^5.5.3",
+        "mini-css-extract-plugin": "^2.7.6",
+        "react-router-dom": "^6.16.0",
+        "sass": "^1.68.0",
+        "sass-loader": "^13.3.2",
+        "ts-loader": "^9.4.4",
+        "typescript": "^5.2.2",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.11.4",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.15.12",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-redux": "^8.1.2",
+        "uuid": "^9.0.1"
+    }
+}
