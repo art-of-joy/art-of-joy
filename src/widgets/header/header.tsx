@@ -94,8 +94,7 @@ export const Header = () => {
                                        xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABW0lEQVR4nO2WMU4CQRiFX6U2WlBIYo0eADmAeACVBEu8gFxALwAXgAvABaChhMRCGrU2SEWHndJQQf7kbbIxO8z88k+3XzLNzMubN7sz/wyQo+cAQBPAFMCK7RXAI8eicgbgA8DG0d6picIhJ5CJFgDqAI7ZagA+OfYW60s0U5MXMsYLHNvwd5gzpbms3MU9NbInzPmluXxyFyfU/Ow72WjHRvtvE88gjiJMnjTZyF5OKV7+6U9MfGTpluwTby/nFM8MA3yxrxQS4DJ1nq0CJPWjHBKgSvHYMMCEfVchAW4pHsCOIT1vQsQPFPcMA/Tp2dCU3I5hgK6mRD9T3DIM0KbnU4i4pREHolpUN8KNpvqtfc2GCUS1sYcUy3G04k5ztCcUS0Gy4tpR3DJJ3nxSkq2opN6MXuYUy6VkxQU95VLy8k1x0TBA0XHFZ7KO+CARby8vEQOId04O0mwBmKjJw0AtZUsAAAAASUVORK5CYII="/>
                             </defs>
                         </svg>
-
-
+                        <div>Test</div>
                     </div>
                 </div>
             </div>
