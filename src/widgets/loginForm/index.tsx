@@ -30,7 +30,6 @@ export const LoginForm = () => {
     }
 
     const onCLickHandler = () => {
-        console.log('Попка');
         if (inputTextModel.validate('email'))
             auth(
                 inputTextModel.getValue('email')!,
@@ -72,14 +71,14 @@ export const LoginForm = () => {
                 isPassword={true}
                 validators={
                     [
-                        {type: 'required', errorMessage: 'Поле "password" обяазтельно для заполнения'},
+                        {type: 'required', errorMessage: 'Поле "password" обязательно для заполнения'},
                         {type: 'lengthRange', minLength: 5, errorMessage: 'Поле "password" должно состоять минимум из 6 символов'},
 
                     ]
                 }
-                onChange={()=> {
-                    inputTextModel.validate("passwordRepeat")
-                }}
+                // onChange={()=> {
+                //     inputTextModel.validate("passwordRepeat")
+                // }}
             />
             <Button onClick={onCLickHandler}>Войти</Button>
         </form>

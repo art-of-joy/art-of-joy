@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Gruppo&display=swap');
+@import "../../app/styles/vars";
 a {
   text-decoration: none;
   color: black;
@@ -10,6 +11,12 @@ a:hover {
   text-decoration: none;
 }
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $white;
+  box-shadow: 0px 1px 20px $shadow_black;
   &__wrapper {
     display: flex;
     justify-content: space-between;
@@ -64,17 +71,17 @@ a:hover {
     background-color: white;
     border: 1px solid black;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    transition: all 0.7s ease;
+    z-index: -1;
+    transition: all .3s ease;
   }
 
   &__navbar__menu_item:hover &__dropdown_catalog {
     transform: translateY(0%);
     opacity: 1;
+    z-index: 2;
   }
 
   &__dropdown_catalog:hover {
-    opacity: 1;
   }
 
   &__dropdown_catalog:hover a {
@@ -88,18 +95,19 @@ a:hover {
   &__left {
     display: flex;
     align-items: center;
-    gap: 20px;
     position: relative;
     &__logo {
-      position: absolute;
-      width: 90px;
-      height: 104px;
+      width: 74px;
+      height: 60px;
+
     }
     &__title {
       font-family: 'Gruppo', cursive;
       font-size: calc(10px + 15*(100vw/1400));
-      padding-left: 50px;
-      margin-top: 50px;
+      position: relative;
+      top: 15px;
+      left: -20px;
+
     }
   }
   &__right {

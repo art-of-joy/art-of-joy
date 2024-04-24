@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { uiSlice } from './slices/uiSlice';
 import {userSlice} from "./slices/userSlice";
+import {backetSlice} from './slices/basketSlice';
 
 export const store = configureStore({
     reducer: {
         ui: uiSlice.reducer,
-        user: userSlice.reducer
+        user: userSlice.reducer,
+        basket: backetSlice.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
