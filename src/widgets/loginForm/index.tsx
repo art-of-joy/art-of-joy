@@ -81,24 +81,6 @@ export const LoginForm = () => {
                     inputTextModel.validate("passwordRepeat")
                 }}
             />
-            <InputText
-                name={'passwordRepeat'}
-                id={"passwordRepeat"}
-                title={'Потворите пароль'}
-                autoValidate={true}
-                isPassword={true}
-                validators={
-                    [
-                        {type: 'required', errorMessage: 'Поле "Потворите пароль" обяазтельно для заполнения'},
-                        {type: 'lengthRange', minLength: 5, errorMessage: 'Поле "Потворите пароль" должно состоять минимум из 6 символов'},
-                        {type: 'custom', errorMessage: 'Поля "Пароль" и "Пвторите пароль" должны совпадать',
-                            customValidation(value: inputValueType, validator: validator): boolean {
-                                return inputTextModel.getValue('password') == value;
-                            }
-                        }
-                    ]
-                }
-            />
             <Button onClick={onCLickHandler}>Войти</Button>
         </form>
     );
