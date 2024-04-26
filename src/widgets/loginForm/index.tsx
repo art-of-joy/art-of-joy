@@ -30,7 +30,9 @@ export const LoginForm = () => {
     }
 
     const onCLickHandler = () => {
+        console.log('до')
         if (inputTextModel.validate('email'))
+            console.log('после');
             auth(
                 inputTextModel.getValue('email')!,
                 "",

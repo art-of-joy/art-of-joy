@@ -17,8 +17,10 @@ export const backetSlice = createSlice({
     reducers:{
         addProduct: (state, action: PayloadAction<Product_Basket>) => {
 
+            const { id, price } = action.payload
+
             const index_product = state.products.findIndex((Product) => {
-                return Product.id === action.payload.id
+                return Product.id === id
             });
 
             if(index_product != -1) {
@@ -28,16 +30,29 @@ export const backetSlice = createSlice({
                 state.products.push(action.payload);
             }
             state.totalCount++
-            state.totalPrice+=action.payload.price
+            if(price != undefined) {
+                state.totalPrice+= price
+            }
+            else {
+                console.error(`У товара с id: ${id} Значение поля Price: Не указано.`)
+            }
         },
         deleteProduct: (state, action: PayloadAction<Product_Basket>) => {
+
+            const { id, price } = action.payload
+
             const index_product = state.products.findIndex((Product) => {
-                return Product.id === action.payload.id
+                return Product.id === id
             });
             if (index_product != -1) {
                 state.products.splice(index_product, 1)
                 state.totalCount--
-                state.totalPrice-=action.payload.price
+                if(price != undefined) {
+                    state.totalPrice-= price
+                }
+                else {
+                    console.error(`У товара с id: ${id} Значение поля Price: Не указано.`)
+                }
             }
 
         },
