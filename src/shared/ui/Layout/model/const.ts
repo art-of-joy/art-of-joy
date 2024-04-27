@@ -6,6 +6,5 @@ export const defaultLayout:innerLayoutInterface = {
     classNames:{
         layout:{name:styles.Layout, useDefault:true}
     },
-    sliceName:"layoutSlice",
     styles: {}
 }

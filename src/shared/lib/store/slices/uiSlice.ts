@@ -15,7 +15,7 @@ export const uiSlice = createSlice({
     initialState,
     reducers:{
         createElem:(state, action:PayloadAction<elementInterfaces>) => {
-                state[action.payload!.id!] = action.payload
+            state[action.payload!.id!] = action.payload
         },
         setProps:(state, action:PayloadAction<{id: string, key: string, value: any}>)=>{
             setPropsByKey(state, action)
@@ -32,6 +32,6 @@ export const uiSlice = createSlice({
     }
 })
 
-export const {createElem,updateProps,setProps, setProperties} = uiSlice.actions
+export const {createElem, deleteElem, updateProps, setProps, setProperties} = uiSlice.actions
 export default uiSlice.reducer
 

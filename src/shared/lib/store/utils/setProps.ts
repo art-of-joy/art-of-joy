@@ -25,12 +25,15 @@ export const updatePropsByKey = <T extends { [key: string]: any}>(
 ) => {
     const { key, value, id } = action.payload;
     const oldValue = (state[id] as T)[key as string];
-    let newValue;
-    if (Array.isArray(oldValue))
-        (state[id] as { [key: string]: any })[key as string] = oldValue.concat(value);
+    if (Array.isArray(oldValue)) {
+        if(Array.isArray((state[id] as { [key: string]: any })[key as string])) {
+            (state[id] as { [key: string]: any })[key as string] = oldValue.concat(value);
+        } else {
+            (state[id] as { [key: string]: any })[key as string] = [oldValue, ...value];
+        }
+    }
     else if (isObject(oldValue))
         (state[id] as { [key: string]: any })[key as string] = getAssignProps([oldValue, value]);
     else if (typeof oldValue == 'string') {
-        console.log('Строка');
     }
 }

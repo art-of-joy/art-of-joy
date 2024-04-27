@@ -8,7 +8,6 @@ export interface mainProps {
 }
 
 export interface innerMainProps{
-    sliceName:string
 }
 
 export interface className {

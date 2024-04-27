@@ -6,10 +6,17 @@ import {updateProps} from "../../shared/lib/store/slices/uiSlice";
 import {inputValueType, validator} from "../../shared/ui/formItems/types";
 import {setUser} from "../../shared/lib/store/slices/userSlice";
 import {auth, User} from "../../entities/user";
+import Layout from "../../shared/ui/Layout/ui";
+import {addLayoutMember, removeLayoutMember} from "../../shared/ui/Layout/model";
+import {AcceptCode} from "../../features/acceptCode";
+import {fetch} from "../../shared/lib/request/API";
+import {address} from "../../app/config";
 export const LoginForm = () => {
 
     const callBackOKHandler = (response: Record<string, any>) => {
         store.dispatch(setUser(response as User));
+        removeLayoutMember("LoginFormLA", [], true);
+        addLayoutMember('LoginFormLA', [<AcceptCode/>]);
     }
 
     const callBackErrorHandler = (error: Record<string, any>) => {
@@ -40,14 +47,14 @@ export const LoginForm = () => {
                 (error) => callBackErrorHandler(error)
             );
     }
-    
+
     return (
-        <form
-            style={{
+        <Layout
+            id={"LoginFormLA"}
+            oriental={'vertical'}
+            styles={{
                 width: 600,
                 margin: '50px auto',
-                display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center'
             }}
         >
@@ -60,7 +67,11 @@ export const LoginForm = () => {
                     [
                         {type: 'required', errorMessage: 'Поле "email" обяазтельно для заполнения'},
                         {type: 'contain', containValue: '@', errorMessage: 'Поле "email" должно содержать @'},
-                        {type: 'lengthRange', minLength: 5, errorMessage: 'Поле "email" должно состоять минимум из 6 символов'},
+                        {
+                            type: 'lengthRange',
+                            minLength: 5,
+                            errorMessage: 'Поле "email" должно состоять минимум из 6 символов'
+                        },
 
                     ]
                 }
@@ -74,7 +85,11 @@ export const LoginForm = () => {
                 validators={
                     [
                         {type: 'required', errorMessage: 'Поле "password" обязательно для заполнения'},
-                        {type: 'lengthRange', minLength: 5, errorMessage: 'Поле "password" должно состоять минимум из 6 символов'},
+                        {
+                            type: 'lengthRange',
+                            minLength: 5,
+                            errorMessage: 'Поле "password" должно состоять минимум из 6 символов'
+                        },
 
                     ]
                 }
@@ -83,7 +98,7 @@ export const LoginForm = () => {
                 // }}
             />
             <Button onClick={onCLickHandler}>Войти</Button>
-        </form>
+        </Layout>
     );
 };
 

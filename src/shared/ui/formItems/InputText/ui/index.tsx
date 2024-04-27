@@ -114,7 +114,6 @@ export const InputText:React.FC<inputTextPropsInterface>= (props) => {
                     onChange={(e) => changeHandler(e)}
                     onBlur={(e) => onExitHandler(e)}
                     onFocus={(e) => { onFocusHandler(e)}}
-                    data-slice={resultProps.sliceName}
                     style={resultProps.classNames?.input?.style}
                     readOnly={!resultProps.canEdit}
                 />
