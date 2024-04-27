@@ -1,13 +1,28 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import {RootState} from "../../shared/lib/store/store";
+import {RootState, store} from "../../shared/lib/store/store";
 import { InputText } from "../../shared/ui/formItems/InputText";
 import HeaderStyles from "../header/header.scss";
 import containerClasses from "../../app/styles/styles.scss";
+import {fetch} from "../../shared/lib/request/API";
+import {setCategories} from "../../shared/lib/store/slices/categoriesSlice";
+import {Category} from "../../entities/category";
+import {address} from "../../app/config";
+
 
 export const Header = () => {
     const user = useSelector((state: RootState) => state.user)
     const Basket = useSelector((state: RootState) => state.basket)
+    const Categories = useSelector((state: RootState) => state.category.Categories);
+    if(Categories.length == 0) {
+        fetch('get', `http://${address}/category`, {}, (response) => {
+            store.dispatch(setCategories(response as Category[]))
+        })
+    }
+    else {
+        console.log('else')
+    }
+
     return (
         <header className={HeaderStyles.header}>
             <div className={containerClasses.container}>
@@ -47,10 +62,11 @@ export const Header = () => {
                                 <a href="#">Каталог</a>
                                 <div className={HeaderStyles.header__dropdown_catalog}>
                                     <div className="dropdown_catalog__container">
-                                        <p>1 Пункт</p>
-                                        <p>2 Пункт</p>
-                                        <p>3 Пункт</p>
-                                        <p>4 Пункт</p>
+                                        {
+                                            Categories.map((category) => {
+                                                return <p>{category.name}</p>
+                                            } )
+                                        }
                                     </div>
                                 </div>
                             </div>

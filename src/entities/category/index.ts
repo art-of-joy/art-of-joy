@@ -1,4 +1,2 @@
-export interface Category {
-    id: number
-    name: string
-}
+
+export { Category,SubCategory } from '../category/types'
