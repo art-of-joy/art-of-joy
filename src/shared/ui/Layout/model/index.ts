@@ -1,7 +1,6 @@
 import React, {ReactNode} from "react";
-
 import {store} from "../../../lib/store/store";
-import {setProps, updateProps} from "../../../lib/store/slices/uiSlice";
+import {setProps, updateProps, deleteElem} from "../../../lib/store/slices/uiSlice";
 import {innerLayoutInterface} from "./types";
 
 
@@ -14,7 +13,7 @@ export const addLayoutMember = (id:string, members:ReactNode | Array<ReactNode>)
     else
         arr.push(members);
 
-    store.dispatch(updateProps({id, key: 'members', value: arr}))
+    store.dispatch(setProps({id, key: 'children', value: arr}));
 }
 
 export const removeLayoutMember = (id:string, membersId: string | Array<string>, all:boolean = false) => {
@@ -41,16 +40,36 @@ export const removeLayoutMember = (id:string, membersId: string | Array<string>,
            if(!all)
                membersIdMassive.forEach( childId => {
                 if(child.props.id && child.props.id == childId) {
-                    // store.dispatch(delete)
+                    store.dispatch(deleteElem({id: childId}));
                 } else {
                     const elem = document.querySelector(`[data-id='${childId}']`);
                     if (elem)
                         elem.remove();
                 }
+
                })
            else {
-               store.dispatch(setProps({id, key: 'children', value: []}))
+               membersIdMassive.forEach( childId => {
+                   if(store.getState().ui[childId]) {
+                       store.dispatch(deleteElem({id: childId}));
+                   }
+               });
+
            }
+        } else {
+            // const elem = document.querySelector(`[data-id='${childId}']`);
+            // const elementsWithDataId = document.querySelectorAll('[data-id]');
+            //
+            // // Создаем пустой массив для хранения значений data-id
+            // const idsArray: string[] = [];
+            //
+            // // Проходим по каждому элементу и добавляем значение data-id в массив
+            // elementsWithDataId.forEach((element: HTMLElement) => {
+            //     const dataIdValue = element.getAttribute('data-id');
+            //     if (dataIdValue) {
+            //         idsArray.push(dataIdValue);
+            //     }
+            // });
         }
     })
 

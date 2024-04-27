@@ -13,7 +13,6 @@ export const defaultInputText:innerInputTextPropsInterface = {
     },
     id: idGeneration('inputText'),
     value: '',
-    sliceName:"inputTextSlice",
     styles: {},
     isPassword: false,
     canEdit: true,

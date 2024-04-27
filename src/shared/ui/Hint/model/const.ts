@@ -2,7 +2,6 @@ import {innerHintInterface} from "./types";
 import styles from '../ui/hint.scss'
 export const defaultHint: innerHintInterface = {
     id: "hint",
-    sliceName:"hintSlice",
     className:{
         hintWrapper:{name: styles.hint__wrapper, useDefault:true},
         hintIcon: {name: styles['hint__icon'], useDefault:true},

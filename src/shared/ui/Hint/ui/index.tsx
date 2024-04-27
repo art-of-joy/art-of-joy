@@ -24,7 +24,6 @@ export const Hint = (props:hintInterface) => {
         <div
             data-id={resultProps.id}
             key={resultProps.id}
-            data-slice={resultProps.sliceName}
             style={{...resultProps.className?.hintWrapper!.style, ...resultProps.styles}}
             className={
                 (resultProps.hintIcon ? '' : getClassName(resultProps.className?.hintIcon?.useDefault!, defaultHint.className?.hintIcon?.name!, resultProps.className?.hintIcon?.name!, resultProps.visible)) + " " +
