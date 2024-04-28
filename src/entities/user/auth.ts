@@ -1,9 +1,21 @@
 import {fetch} from "../../shared/lib/request/API";
 import {address} from "../../app/config";
 
-export const auth = (email: string, password: string, callBackOk:(data: Record<string, any>) => void, callBackError:(error: Record<string, any>) => void) => {
-    fetch('post', `${address}/registration`,
-        {params: {email}},
+export const auth = (
+    email: string,
+    password: string,
+    number: string,
+    authType: number,
+    callBackOk:(data: Record<string, any>) => void,
+    callBackError:(error: Record<string, any>) => void
+) => {
+    fetch('post', `${address}/auth`,
+  {params: {
+            email,
+            password,
+            authType,
+            number
+        }},
         (data)=> {
             callBackOk(data);
         },

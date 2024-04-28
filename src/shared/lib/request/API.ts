@@ -29,45 +29,37 @@ export const fetch = (
         case 'post':
             axios.post(url, config?.params, { headers: config?.headers })
                 .then(response => {
-                    if (callBackOk)
-                        callBackOk(response.data);
+                    responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    if (callBackError)
-                        callBackError(error.response?.data || error.message);
+                   errorHandler(error, callBackError);
                 });
             break;
         case 'get':
             axios.get(url, config)
                 .then(response => {
-                    if (callBackOk)
-                        callBackOk(response.data);
+                    responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    if (callBackError)
-                        callBackError(error.response?.data || error.message);
+                    errorHandler(error, callBackError);
                 });
             break;
         case 'update':
             axios.put(url, config?.params, { headers: config?.headers })
                 .then(response => {
-                    if (callBackOk)
-                        callBackOk(response.data);
+                    responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    if (callBackError)
-                        callBackError(error.response?.data || error.message);
+                    errorHandler(error, callBackError);
                 });
             break;
         case 'delete':
             axios.delete(url, { headers: config?.headers })
                 .then(response => {
-                    if (callBackOk)
-                        callBackOk(response.data);
+                    responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    if (callBackError)
-                        callBackError(error.response?.data || error.message);
+                    errorHandler(error, callBackError);
                 });
             break;
     }

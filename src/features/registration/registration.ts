@@ -1,1 +1,1 @@
-export {auth} from '../../entities/user'
+export {registration} from '../../entities/user'
