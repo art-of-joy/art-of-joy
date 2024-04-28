@@ -9,7 +9,7 @@ export const auth = (
     callBackOk:(data: Record<string, any>) => void,
     callBackError:(error: Record<string, any>) => void
 ) => {
-    fetch('post', `${address}/auth`,
+    fetch('post', `${address}/authorization`,
   {params: {
             email,
             password,

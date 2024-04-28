@@ -5,6 +5,7 @@ import {MainPage} from "../pages/mainPage";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {store} from "../shared/lib/store/store";
 import {SignUp} from "../pages/signup";
+import {LoginPage} from "../pages/login";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -20,8 +21,8 @@ const router = createBrowserRouter([
         element: <SignUp/>
     },
     {
-        path: "/auth",
-        element: <SignUp/>
+        path: "/login",
+        element: <LoginPage/>
     },
 ])
 

@@ -5,8 +5,10 @@ const responseHandler = (
         callBackOk?: (response: Record<string, any>) => void,
         callBackError?: (error: Record<string, any>) => void
     ) => {
-    if (response?.data?.success == false && callBackError) {
-        callBackError(response.data);
+    if (response?.data?.success == false) {
+        if (callBackError) {
+            callBackError(response.data);
+        }
     }
     else if (callBackOk) {
         callBackOk(response.data);

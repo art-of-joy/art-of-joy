@@ -1,12 +1,12 @@
 import React from 'react';
 import {Header} from "../widgets/header/header";
-import {RegistrationForm} from "../widgets/regForm";
+import {LoginForm} from "../widgets/loginForm";
 
-export const RegistrationPage = () => {
+export const LoginPage = () => {
     return (
         <>
             <Header/>
-            <RegistrationForm/>
+            <LoginForm/>
         </>
     );
 };

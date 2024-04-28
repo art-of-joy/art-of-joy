@@ -29,8 +29,9 @@ export const Header = () => {
         <header className={HeaderStyles.header}>
             <div className={containerClasses.container}>
                 <div className={HeaderStyles["header__wrapper"]}>
+                    <Link to={'/'}>
                     <div className={HeaderStyles.header__left}>
-                        <Link to={'/'}>\
+
                             <div className={HeaderStyles.header__left__logo}>
                                 <svg width='74' height='60' viewBox="0 0 214 228" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -58,8 +59,8 @@ export const Header = () => {
                             <div className={HeaderStyles.header__left__title}>
                                 <p>Art of Joy</p>
                             </div>
-                        </Link>
                     </div>
+                    </Link>
                     <div className="center">
                         <nav className={HeaderStyles.header__navbar}>
                             <div className={HeaderStyles.header__navbar__menu_item}>
