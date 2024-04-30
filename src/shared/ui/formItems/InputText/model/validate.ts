@@ -1,7 +1,9 @@
 import {showError} from "../../../../lib/helpers/errorHandler";
 import {store} from "../../../../lib/store/store";
 import {innerInputTextPropsInterface} from "./types";
-
+import {inputValueType, validator} from "../../types";
+import {setProps, updateProps} from "../../../../lib/store/slices/uiSlice";
+import {getValue, validate} from "./api/InputTextUtils";
 
 export const validateInputText = (id: string): Array<number> => {
     const props = store.getState().ui[id]! as innerInputTextPropsInterface;
@@ -83,4 +85,43 @@ export const validateInputText = (id: string): Array<number> => {
         })
     }
     return result;
+}
+
+export const serverValidation = (responseError: Record<string, any>) => {
+    if (responseError && responseError.errorList) {
+        const errors = responseError.errorList as Record<string, any>[];
+        errors.map(error => {
+            const input = store.getState().ui[error.fieldName] as innerInputTextPropsInterface | undefined;
+            const wrongValuesField = 'wrong_' + error.fieldName;
+            if (input) {
+                const serverValidatorIndex = input.validators?.findIndex((validator) => {
+                    return validator[wrongValuesField] && validator[wrongValuesField].length > 0;
+                });
+                if (serverValidatorIndex && serverValidatorIndex != -1 && input.validators) {
+                    //Игры с памятью, жаль что не С++(( {...}, [...] это нужно, потому что в store объекты и массивы readonly
+                    const validators = [...input.validators];
+                    //Запись неверных значений, чтоб человек не мог их заново отправить на бэк
+                    const wrongValues =  [...validators[serverValidatorIndex][wrongValuesField]] as Array<string>;
+                    wrongValues.push(getValue(error.fieldName)!);
+                    const currentValidator = {...validators[serverValidatorIndex]} as validator;
+                    currentValidator[wrongValuesField] = wrongValues;
+                    validators.splice(serverValidatorIndex, 1);//Удаление старого валидатора
+                    validators.push(currentValidator);//Запись нового
+                    //Объекты readonly, заменять их напрямую нельзя, поэтому вот
+                    store.dispatch(setProps({id: error.fieldName, key: "validators", value: validators}));
+                } else {
+                    store.dispatch(updateProps({id: error.fieldName, key: 'validators', value:
+                            [
+                                {type: 'custom', errorMessage: error.message, [wrongValuesField]: [getValue(error.fieldName)],
+                                    customValidation: (value: inputValueType, validator: validator) => {
+                                        return !validator[wrongValuesField].includes(value);
+                                    }
+                                }
+                            ]
+                    }));
+                }
+                validate(error.fieldName);
+            }
+        });
+    }
 }

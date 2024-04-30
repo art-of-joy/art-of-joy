@@ -1,6 +1,6 @@
 import {store} from "../../../../../lib/store/store";
 import {innerInputTextPropsInterface, inputTextPropsInterface} from "../types";
-import {validateInputText} from "../validate";
+import {serverValidation, validateInputText} from "../validate";
 import {setProperties, setProps} from "../../../../../lib/store/slices/uiSlice";
 
 export const getValue = (id:string) => {
@@ -26,3 +26,5 @@ export const validate = (id: string) => {
         return true;
     }
 }
+
+export const serverValidate = (responseError: Record<string, any>) => serverValidation(responseError);

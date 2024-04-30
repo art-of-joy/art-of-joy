@@ -14,15 +14,7 @@ import {Link} from "react-router-dom";
 export const Header = () => {
     const user = useSelector((state: RootState) => state.user)
     const Basket = useSelector((state: RootState) => state.basket)
-    const Categories = useSelector((state: RootState) => state.category.Categories);
-    if(Categories.length == 0) {
-        fetch('get', `${address}/category`, {}, (response ) => {
-            const responseArr:{category: Category[], subCategory: SubCategory[]}[] = response as {category: Category[], subCategory: SubCategory[]}[];
-            const categories: {category: Category[], subCategory: SubCategory[]} = responseArr[0];
-            store.dispatch(setCategories(categories.category));
-            store.dispatch(setSupCategories(categories.subCategory));
-        })
-    }
+
 
 
     return (

@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {tablePropsInterface} from "../../../ui/Table/model/types";
 import {User} from "../../../../entities/user";
 
