@@ -5,8 +5,10 @@ import {UserMenu} from "../../userMenu";
 export const SidebarProfile = () => {
     return (
         <div className={sidebarStyles.sidebar}>
-            <UserInfo></UserInfo>
-            <UserMenu></UserMenu>
+            <div className={sidebarStyles.sidebar__inner}>
+                <UserInfo></UserInfo>
+                <UserMenu></UserMenu>
+            </div>
         </div>
     );
 };

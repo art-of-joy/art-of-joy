@@ -1,3 +1,43 @@
-.sidebar {
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import 'src/app/styles/vars.scss';
+
+.sideBarContainer {
+  box-shadow: 1px 2px 10px 1px $shadow_black_15;
+  padding: 0 0 15px 0;
+  border-radius: 10px;
+  font-family: 'Roboto',sans-serif;
+  overflow: hidden;
+}
+
+.data_item {
+  padding: 5px 20px;
+  text-align: left;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.data_item > span {
+  display: block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.data_profile {
+  margin-bottom: 10px;
+  font-size: 20px;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: $lightGrey;
+}
+
+.mailIcon_icon {
+  height: 15px;
+  width: 15px;
+  min-height: 15px;
+  min-width: 15px;
 }

@@ -1,7 +1,25 @@
 @import "../../../app/styles/vars";
 
 .sidebar {
-  position: sticky;
   border-radius: 20px;
   padding: 10px;
+  &__inner {
+    top: 80px;
+    position: sticky;
+    max-height: max-content;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    &__inner {
+      position: static;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
 }

@@ -5,3 +5,10 @@ $gap: 2%;
   grid-template-columns: calc(30% - $gap / 2) calc(70% - $gap / 2);
   gap: $gap;
 }
+
+@media (max-width: 768px) {
+  .main_container {
+    max-width: 720px;
+    grid-template-columns: 100%;
+  }
+}
