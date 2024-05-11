@@ -15,6 +15,32 @@ export const Header = () => {
     const user = useSelector((state: RootState) => state.user)
     const Basket = useSelector((state: RootState) => state.basket)
 
+    const isLink = user.token !== undefined ? '/profile' : '/signup'
+
+    const category = (
+        callBackOk:(data: Record<string, any>) => void,
+        callBackError:(error: Record<string, any>) => void
+    ) => {
+        fetch('get', `${address}/category`,
+            {params: {
+                }},
+            (data)=> {
+                callBackOk(data);
+            },
+            (error)=>{
+                callBackError(error);
+            })
+    }
+
+    category(
+        (data) => {
+            console.log('Success:', data);
+        },
+        (error) => {
+            console.error('Error:', error);
+        }
+    );
+
 
 
     return (
@@ -84,7 +110,7 @@ export const Header = () => {
                                 d="M23.8125 22.7344C24.0938 22.9844 24.0938 23.25 23.8125 23.5312L22.7812 24.5625C22.5 24.8438 22.2344 24.8438 21.9844 24.5625L16.3125 18.8906C16.1875 18.7656 16.125 18.6406 16.125 18.5156V17.8594C14.2813 19.4531 12.1562 20.25 9.75 20.25C7.0625 20.25 4.76563 19.2969 2.85938 17.3906C0.953125 15.4844 0 13.1875 0 10.5C0 7.8125 0.953125 5.51563 2.85938 3.60938C4.76563 1.70312 7.0625 0.75 9.75 0.75C12.4375 0.75 14.7344 1.70312 16.6406 3.60938C18.5469 5.51563 19.5 7.8125 19.5 10.5C19.5 12.9062 18.7031 15.0313 17.1094 16.875H17.7656C17.9219 16.875 18.0469 16.9375 18.1406 17.0625L23.8125 22.7344ZM4.45312 15.7969C4.45312 15.7969 4.82031 16.1641 5.55469 16.8984C6.28906 17.6328 7.6875 18 9.75 18C11.8125 18 13.5781 17.2656 15.0469 15.7969C16.5156 14.3281 17.25 12.5625 17.25 10.5C17.25 8.4375 16.5156 6.67188 15.0469 5.20312C13.5781 3.73437 11.8125 3 9.75 3C7.6875 3 5.92188 3.73437 4.45312 5.20312C2.98437 6.67188 2.25 8.4375 2.25 10.5C2.25 12.5625 2.98437 14.3281 4.45312 15.7969Z"
                                 fill="#333333"/>
                         </svg>
-                        <Link to={'/signup'}>
+                        <Link to={isLink}>
                             <svg width="33" height="33" viewBox="0 0 64 64" fill="none"
                                  xmlns="http://www.w3.org/2000/svg"
                                  xmlnsXlink="http://www.w3.org/1999/xlink">
