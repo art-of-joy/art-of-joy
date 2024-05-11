@@ -5,18 +5,15 @@ import {store} from "../../shared/lib/store/store";
 import {setProps, updateProps} from "../../shared/lib/store/slices/uiSlice";
 import {inputValueType, validator} from "../../shared/ui/formItems/types";
 import {setUser} from "../../shared/lib/store/slices/userSlice";
-import {auth, registration, User} from "../../entities/user";
+import {auth, User} from "../../entities/user";
 import Layout from "../../shared/ui/Layout/ui";
-import {addLayoutMember, removeLayoutMember} from "../../shared/ui/Layout/model";
-import {AcceptCode} from "../../features/acceptCode";
 import {innerInputTextPropsInterface} from "../../shared/ui/formItems/InputText/model/types";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 export const LoginForm = () => {
-
+    const navigate= useNavigate();
     const callBackOKHandler = (response: Record<string, any>) => {
         store.dispatch(setUser(response as User));
-        removeLayoutMember("regLA", [], true);
-        addLayoutMember('regLA', [<AcceptCode/>]);
+        navigate('/profile');
     }
 
     const callBackErrorHandler = (error: Record<string, any>) => {
@@ -83,6 +80,7 @@ export const LoginForm = () => {
                 name={'email_authFormTI'}
                 id={"email_authFormTI"}
                 title={'email'}
+                value={'shlyapnikov.nik@mail.ru'}
                 autoValidate={true}
                 validators={
                     [
@@ -101,6 +99,8 @@ export const LoginForm = () => {
                 id={'password_authFormTI'}
                 title={'Пароль'}
                 name={'password'}
+                value={'Password1'}
+
                 autoValidate={true}
                 isPassword={true}
                 validators={[
@@ -109,7 +109,7 @@ export const LoginForm = () => {
                 keyPress={(value, oldValue, key) => onSubmit(key)}
             />
             <Button onClick={() => onSubmit()}>Войти</Button>
-            <p>Нет аккаунта?<Link to={'/signup'}> Зарегистрируйтесь </Link></p>
+            <p>Нет аккаунта? <Link to={'/signup'}> Зарегистрируйтесь </Link></p>
         </Layout>
     );
 };

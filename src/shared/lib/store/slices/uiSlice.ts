@@ -15,10 +15,10 @@ export const uiSlice = createSlice({
     initialState,
     reducers:{
         createElem:(state, action:PayloadAction<elementInterfaces>) => {
-            state[action.payload!.id!] = action.payload
+            state[action.payload!.id!] = action.payload;
         },
         setProps:(state, action:PayloadAction<{id: string, key: string, value: any}>)=>{
-            setPropsByKey(state, action)
+            setPropsByKey(state, action);
         },
         setProperties:(state, action: PayloadAction<{id:string, propsArray: Array<{key: string, value: any}>}>) => {
             setPropsByKeys(state, action);

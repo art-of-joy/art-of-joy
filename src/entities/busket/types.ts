@@ -8,5 +8,4 @@ export interface Basket {
 
 export interface Product_Basket extends Product {
     count: number
-
 }
