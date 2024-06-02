@@ -4,10 +4,7 @@ import {User} from "../../../../entities/user";
 
 export type elementInterfaces = tablePropsInterface
 
-const initialState:User= {
-    token: '',
-    role: 0
-}
+const initialState:User= {}
 
 
 export const userSlice = createSlice({

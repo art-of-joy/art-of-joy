@@ -6,7 +6,7 @@ import {store} from "../../shared/lib/store/store";
 import {addLayoutMember, removeLayoutMember} from "../../shared/ui/Layout/model";
 import {UserInfoForm} from "../userInfo";
 import {Button} from "@mui/material";
-import {updateUser} from "../../shared/lib/store/slices/userSlice";
+import {setUser, updateUser} from "../../shared/lib/store/slices/userSlice";
 import {User} from "../../entities/user";
 
 export const AcceptCode = () => {
@@ -21,8 +21,9 @@ export const AcceptCode = () => {
                 acceptCodeType: 0
             }
         }, (response) => {
-            const user = response as User;
-            store.dispatch(updateUser(user));
+            const userData: User = {...response.data}
+            userData.token = response.headers.token;
+            store.dispatch(setUser(userData));
             removeLayoutMember('regLA', [], true);
             addLayoutMember('regLA', <UserInfoForm/>);
         },

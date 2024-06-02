@@ -26,7 +26,7 @@ export const UserInfo = () => {
                 {user.surname && <div className={ccsModules.data_item}>Фамилия: <span>{user.surname}</span></div>}
                 {user.firstname && <div className={ccsModules.data_item}>Имя: <span>{user.firstname}</span></div>}
                 {user.middlename && <div className={ccsModules.data_item}>Отчество: <span>{user.middlename}</span></div>}
-                {user.number && <div className={ccsModules.data_item}>
+                {user.phone && <div className={ccsModules.data_item}>
                     <svg className={ccsModules.mailIcon_icon} viewBox="0 0 50 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <rect width="50" height="50" fill="url(#pattern0_75_2)"/>
@@ -39,7 +39,7 @@ export const UserInfo = () => {
                         </defs>
                     </svg>
 
-                    <span>{user.number}</span></div>}
+                    <span>{user.phone}</span></div>}
             </div>
         </>
     );

@@ -5,6 +5,8 @@ import {fetch} from "../../shared/lib/request/API";
 import {address} from "../../app/config";
 import {store} from "../../shared/lib/store/store";
 import {inputValueType, validator} from "../../shared/ui/formItems/types";
+import {setUser} from "../../shared/lib/store/slices/userSlice";
+import {User} from "../../entities/user";
 export const UserInfoForm = () => {
     return (
         <form>
@@ -56,7 +58,7 @@ export const UserInfoForm = () => {
                                 }
                             },
                             (response)=> {
-                                console.log(response);
+                                store.dispatch(setUser(response.data as User));
                             },
                             (error)=> {
                                 console.error(error);

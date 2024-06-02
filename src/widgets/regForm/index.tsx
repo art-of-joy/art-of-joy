@@ -11,13 +11,17 @@ import {Link} from "react-router-dom";
 export const RegistrationForm = () => {
 
     const callBackOKHandler = (response: Record<string, any>) => {
-        store.dispatch(setUser(response as User));
+        const userData: User = {...response.data}
+        userData.token = response.headers.token;
+        store.dispatch(setUser(userData));
         removeLayoutMember("regLA", [], true);
         addLayoutMember('regLA', [<AcceptCode/>]);
     }
 
     const callBackErrorHandler = (error: Record<string, any>) => {
-        inputTextModel.serverValidate(error);
+        if (error && error.data && error.data.errorList) {
+            inputTextModel.serverValidate(error.data);
+        }
     }
 
 

@@ -1,33 +1,33 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Category, SubCategory} from "../../../../entities/category";
 
-export interface CategoriesSliceinitialState {
-    Categories: Category []
-    SubCategories: SubCategory []
-}
-
-const initialState : CategoriesSliceinitialState = {
-    Categories: [],
-    SubCategories: [],
-}
-
-
+const initialState : Category[] = []
 
 export const categoriesSlice = createSlice({
     name:"categoriesSlice",
     initialState,
     reducers:{
         addCategories: (state, action: PayloadAction<Category[]>) => {
-            state.Categories.concat(action.payload)
+            state.concat(action.payload);
         },
-        addSupCategories: (state, action: PayloadAction<SubCategory[]>) => {
-            state.SubCategories.concat(action.payload)
+        addSupCategories: (state, action: PayloadAction<{categoryId: number, subCategory: SubCategory[]}>) => {
+            const CategoryIndex = state.findIndex((category)=> {return category.id == action.payload.categoryId});
+            if (CategoryIndex != -1) {
+                state[CategoryIndex].subCategories.concat(action.payload.subCategory);
+            } else {
+                console.error(`Не найдена категория с id: ${action.payload.categoryId}`);
+            }
         },
         setCategories: (state, action: PayloadAction<Category[]>) => {
-            state.Categories = action.payload
+            return action.payload;
         },
-        setSupCategories: (state, action: PayloadAction<SubCategory[]>) => {
-            state.SubCategories = action.payload
+        setSupCategories: (state, action: PayloadAction<{categoryId: number, subCategory: SubCategory[]}>) => {
+            const CategoryIndex = state.findIndex((category)=> {return category.id == action.payload.categoryId});
+            if (CategoryIndex != -1) {
+                state[CategoryIndex].subCategories = (action.payload.subCategory);
+            } else {
+                console.error(`Не найдена категория с id: ${action.payload.categoryId}`);
+            }
         },
     }
 })

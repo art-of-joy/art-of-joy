@@ -7,11 +7,11 @@ const responseHandler = (
     ) => {
     if (response?.data?.success == false) {
         if (callBackError) {
-            callBackError(response.data);
+            callBackError(response);
         }
     }
     else if (callBackOk) {
-        callBackOk(response.data);
+        callBackOk(response);
     }
 }
 
@@ -31,6 +31,7 @@ export const fetch = (
         case 'post':
             axios.post(url, config?.params, { headers: config?.headers })
                 .then(response => {
+
                     responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
