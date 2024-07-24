@@ -1,7 +1,8 @@
 const path = require('path');
-
-const HtmlWebpackPlugin = require("html-webpack-plugin") 
+const express = require('express');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const history = require('connect-history-api-fallback'); // добавляем connect-history-api-fallback
 
 module.exports = {
     mode: 'development',
@@ -38,7 +39,7 @@ module.exports = {
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
-        clean:true
+        clean: true
     },
     devServer: {
         static: {
@@ -46,11 +47,22 @@ module.exports = {
         },
         hot: true,
         port: 3000,
+        historyApiFallback: true,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:4000',
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        },
     },
     plugins: [
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({      
-        template: "./public/index.html"
+            template: "./public/index.html"
         })
     ]
 };

@@ -3,14 +3,13 @@
 .sidebar {
   border-radius: 20px;
   padding: 10px;
-  &__inner {
+  &__inner { //.sidebar .sidebar__inner
     top: 80px;
     position: sticky;
     max-height: max-content;
     display: flex;
     gap: 15px;
     flex-direction: column;
-
   }
 }
 

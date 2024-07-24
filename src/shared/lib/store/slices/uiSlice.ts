@@ -4,8 +4,9 @@ import {tablePropsInterface} from "../../../ui/Table/model/types";
 import {innerHintInterface} from "../../../ui/Hint/model/types";
 import {innerLayoutInterface} from "../../../ui/Layout/model/types";
 import {inputTextPropsInterface} from "../../../ui/formItems/InputText/model/types";
+import {innerDataSourceInterface} from "../../../ui/DataSource/model/types";
 
-export type elementInterfaces = tablePropsInterface | innerHintInterface | innerLayoutInterface | inputTextPropsInterface
+export type elementInterfaces = tablePropsInterface | innerHintInterface | innerLayoutInterface | inputTextPropsInterface | innerDataSourceInterface
 
 const initialState:Record<string, elementInterfaces> = {}
 
@@ -17,7 +18,7 @@ export const uiSlice = createSlice({
         createElem:(state, action:PayloadAction<elementInterfaces>) => {
             state[action.payload!.id!] = action.payload;
         },
-        setProps:(state, action:PayloadAction<{id: string, key: string, value: any}>)=>{
+        setProps:(state, action:PayloadAction<{id: string, key: string, value: any}>)=> {
             setPropsByKey(state, action);
         },
         setProperties:(state, action: PayloadAction<{id:string, propsArray: Array<{key: string, value: any}>}>) => {

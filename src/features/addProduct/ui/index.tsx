@@ -4,6 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 import {fetch} from "../../../shared/lib/request/API";
 import {address} from "../../../app/config";
 import {store} from "../../../shared/lib/store/store";
+import {Table} from "../../../shared/ui/Table";
 export const AddProduct = () => {
 
     const handleClick = () => {
@@ -34,6 +35,7 @@ export const AddProduct = () => {
             >
                 Загрузите файл
             </LoadingButton>
+            <Table/>
         </>
     );
 };
