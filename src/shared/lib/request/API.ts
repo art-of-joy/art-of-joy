@@ -1,11 +1,12 @@
 import axios, {AxiosResponse} from "axios";
+import {store} from "../store/store";
 
 const responseHandler = (
         response: AxiosResponse<any, any>,
         callBackOk?: (response: Record<string, any>) => void,
         callBackError?: (error: Record<string, any>) => void
     ) => {
-    if (response?.data?.success == false) {
+    if (response?.data?.errorList !== undefined) {
         if (callBackError) {
             callBackError(response);
         }
@@ -16,7 +17,8 @@ const responseHandler = (
 }
 
 const errorHandler = (error: Record<string, any>, callBackError?: (error: Record<string, any>) => void) => {
-    if(callBackError && error && error.data)
+    console.log(callBackError!== undefined && error !== undefined && error.data !== undefined)
+    if(callBackError!== undefined && error !== undefined && error.data !== undefined)
         callBackError(error.data);
 }
 
@@ -27,15 +29,18 @@ export const fetch = (
     callBackOk?: (response: Record<string, any>) => void,
     callBackError?: (error: Record<string, any>) => void
 ) => {
+
+    const Token = store.getState().user.token;
+    const headers = {...config?.headers, Token}
+
     switch (method) {
         case 'post':
-            axios.post(url, config?.params, { headers: config?.headers })
+            axios.post(url, config?.params, { headers: headers })
                 .then(response => {
-
                     responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                   errorHandler(error, callBackError);
+                   errorHandler(error.response, callBackError);
                 });
             break;
         case 'get':
@@ -44,25 +49,25 @@ export const fetch = (
                     responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    errorHandler(error, callBackError);
+                    errorHandler(error.response, callBackError);
                 });
             break;
         case 'update':
-            axios.put(url, config?.params, { headers: config?.headers })
+            axios.put(url, config?.params, { headers: headers })
                 .then(response => {
                     responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    errorHandler(error, callBackError);
+                    errorHandler(error.response, callBackError);
                 });
             break;
         case 'delete':
-            axios.delete(url, { headers: config?.headers })
+            axios.delete(url, { headers: headers })
                 .then(response => {
                     responseHandler(response, callBackOk, callBackError);
                 })
                 .catch(error => {
-                    errorHandler(error, callBackError);
+                    errorHandler(error.response, callBackError);
                 });
             break;
     }

@@ -20,6 +20,11 @@ interface CssExports {
   'table__header-spans__fields': string;
   'table__header-spans__row': string;
   'table__loader': string;
+  'table__pagination': string;
+  'table__pagination__arrow': string;
+  'table__pagination__arrow--left': string;
+  'table__pagination__arrow--right': string;
+  'table__pagination__wrapper': string;
   'table__row': string;
   'table__select': string;
   'table__select-check-mark': string;
@@ -28,9 +33,6 @@ interface CssExports {
   'table__select-exit': string;
   'table__select-exit-active': string;
   'table__select-square': string;
-  'table__treeGrid-border': string;
-  'table__treeGrid-button': string;
-  'table__treeGrid-button--active': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

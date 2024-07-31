@@ -3,14 +3,12 @@ import styles from '../ui/Table.module.scss'
 export const tableDefault: innerTablePropsInterface = {
   id: 'table',
   isLoading: false,
+  emptyMessage: 'Полей нет',
   fields: [
     { name: 'Поле 1', styles: {width: '100px'}},
-    { name: 'Поле 2'},
     { name: 'Поле 3'}
   ],
-  styles: {
-    maxHeight: '600px'
-  },
+
   classNames: {
     table:{name:styles.table, useDefault:true},
     head: {name: styles.table__head, useDefault: true},
@@ -34,9 +32,12 @@ export const tableDefault: innerTablePropsInterface = {
     headerSpansFields: {name: styles['table__header-spans__fields'], useDefault: true},
     delete:{name:styles.table__delete, useDefault:true},
     deleteMark:{name:styles["table__delete-mark"], useDefault:true},
-
+    paginationArrow: {name: styles["table__pagination__arrow"], useDefault:true},
+    paginationArrowLeft: {name: styles["table__pagination__arrow--left"], useDefault:true},
+    paginationArrowRight: {name: styles["table__pagination__arrow--right"], useDefault:true},
+    paginationWrapper: {name: styles["table__pagination__wrapper"], useDefault:true},
+    pagination: {name: styles["table__pagination"], useDefault:true},
   },
-
   selectColNum: 0,
   countRowForFetch: 10,
   selectedAll:false,
@@ -47,6 +48,8 @@ export const tableDefault: innerTablePropsInterface = {
   canDelete:false,
   canDragRecords: false,
   canDropRecords: false,
-  treeGridSortedRecords: false,
-  autoFetch: true
+  autoFetch: true,
+  recordsPerPage: 15,
+  page: 0,
+  currentX: 0
 }

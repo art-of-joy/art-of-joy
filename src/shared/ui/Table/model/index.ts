@@ -51,8 +51,9 @@ export const fetchTableData = (id:string, params:Record<string, any> = {}, callB
         const dataSource = (store.getState().ui[table.dataSource] as innerDataSourceInterface);
         fetchDataSource(dataSource.id, params, (response ) => {
             store.dispatch(setProps({id, key: "isLoading", value: false}))
+            store.dispatch(setProps({id, key: 'records', value: response.data}))
             callBack(response)
-        }, () => {}, "get", reload)
+        }, () => {}, dataSource.method, reload)
 
     }else
         showError("Не найдено поле DataSource в таблице")

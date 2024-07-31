@@ -6,6 +6,7 @@ import {tableDefault} from "./const";
 import {isConsecutiveIndexes} from "../../../lib/helpers/isConsecutiveIndexes";
 import {setProperties, setProps} from "../../../lib/store/slices/uiSlice";
 export const formatColWidth = (field: field) => {
+    field = {...field}
     if(field.colWidth) {
         const { value, unit } = field.colWidth;
         switch (unit) {
@@ -28,25 +29,27 @@ export const formatColWidth = (field: field) => {
 
 export const setFieldWidth = (id:string, fieldIndex:number, width:number) => {
     const table = store.getState().ui[id] as innerTablePropsInterface;
-    const fields = [...table.fields!] as field[];
-    if (fields[fieldIndex].colWidth === undefined) {
-        // Если colWidth равен undefined, создаем новый объект colWidth
-        fields[fieldIndex].colWidth = {
-            value: width,
-            unit: 'px'
-        };
-    } else {
-        // В противном случае, обновляем существующий объект colWidth
-        fields[fieldIndex].colWidth!.value = width;
-        fields[fieldIndex].colWidth!.unit = 'px';
-    }
-    store.dispatch(setProps({id, key: 'fields', value: fields}))
+    const fields = table.fields!.map((field, index) => {
+        if (index === fieldIndex) {
+            return {
+                ...field,
+                colWidth: {
+                    value: width,
+                    unit: 'px'
+                }
+            };
+        }
+        return field;
+    });
+
+    store.dispatch(setProps({ id, key: 'fields', value: fields }));
 }
 
 export const addSelectedField = (props: innerTablePropsInterface) => {
     const table = store.getState().ui[props.id!] as innerTablePropsInterface;
-    const fields = table.fields;
-    if (fields) {
+
+    if (table.fields) {
+        const fields = [...table.fields]
         fields.splice(props.selectColNum!, 0, {name: 'enot-select', showTitle: false, styles: {flexGrow: 1}});
         store.dispatch(setProps({id: props.id!, key: 'fields', value: fields}));
     }
@@ -93,8 +96,9 @@ export const onDragStartHandler = (e: React.DragEvent<HTMLElement>, id: string) 
     }
 }
 
-export const onDragHandler = (e: React.DragEvent<HTMLElement>, props: innerTablePropsInterface, index: number) =>{
+export const onDragHandler = (e: React.DragEvent<HTMLElement>, props: innerTablePropsInterface, index: number) => {
     const width = props.currentWidth! + (e.clientX - props.currentX!);
+    console.log(width)
     if(width > 0)
         setFieldWidth(props.id!, index, width);
 }
@@ -170,15 +174,15 @@ export const getFieldLayout = (props: innerTablePropsInterface, index: number, u
     return <div
         style={useStyles ? colStyle : {...field.styles}}
         draggable={true}
+
         onDragStart={(e) => {
             onDragStartHandler(e, props.id!);
         }}
+
         onDrag={(e) => {
             onDragHandler(e, props, index);
         }}
-        onDragEnd={() => {
 
-        }}
         className={getClassName(props.classNames?.headCell?.useDefault!, tableDefault.classNames?.headCell?.name!, props.classNames?.headCell?.name!)}
         key={"tableField" + props.id + index}
     >

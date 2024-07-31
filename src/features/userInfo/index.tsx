@@ -101,9 +101,6 @@ export const UserInfoForm = () => {
                         inputTextModel.validate('password_userInfoFormTI')
                     ) {
                         fetch('post', `${address}/password`,{
-                                headers: {
-                                    Token: store.getState().user.token
-                                },
                                 params: {
                                     password: inputTextModel.getValue('password_userInfoFormTI'),
                                     repeatPassword: inputTextModel.getValue('passwordRepeat_userInfoFormTI')

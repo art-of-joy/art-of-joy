@@ -1,57 +1,69 @@
 @import "src/app/styles/vars";
 
 .table{
+    margin: 20px;
     border: 1px solid $blue;
     display:block;
     max-width: max-content;
     min-width: min-content;
-    overflow: auto;
     border-radius: 5px;
     background-color: white;
-    &__treeGrid {
-        &-button {
-            width: 20px;
-            height: 20px;
+    &__pagination {
+        border-top: 1px solid $blue;
+        &__wrapper {
+            height: max-content;
+            padding: 10px;
+            display: flex;
+            gap: 5px;
+            width: 40%;
+            justify-content: end;
+            margin: 0 0 0 auto;
+        }
+
+        &__arrow {
+            border-radius: 50%;
             position: relative;
-            background: inherit;
-            transition: background-color 0.3s;
+            transition: .3s;
+            border: 1px solid $blue;
+            width: 25px;
+            height: 25px;
             cursor: pointer;
-            border-radius: 5px;
-            &::before, &::after {
-                content:'';
-                position: absolute;
-                background-color: #BFC5CA;
-                top: 50%;
-                left: 50%;
-                border-radius: 2px;
-                transform: translate(-50%,-50%);
-                transition: background-color 0.3s;
-            }
-            &::before {
-                width: 13px;
-                height: 2px;
-            }
-            &::after {
-                height: 13px;
-                width: 2px;
-            }
             &:hover {
-                background-color: #F2F3F6;
-                transition: background-color 0.3s;
+                background: $blue;
+                transition: .3s;
                 &::before, &::after {
-                    transition: background-color 0.3s;
-                    background-color: $blue;
+                   background: $white;
                 }
             }
-            &--active::after {
-                transition: transform 0.3s;
-                transform: translate(-50%,-50%) rotate(-90deg);
+            &::before, &::after {
+                content: '';
+                position: absolute;
+                width: 10px;
+                height: 2px;
+                border-radius: 3px;
+                background: $blue;
+                top: 50%;
+                left: 50%
+            }
+            &::before {
+                top: calc(48% - 3px);
+                left: calc(48% + 2px);
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+            &::after {
+                top: calc(48% + 3px);
+                left: calc(48% + 2px);
+                transform: translate(-50%, -50%) rotate(-45deg);
+            }
+            &--left {
+                transform: rotate(180deg);
+            }
+            &--right {
+                transform: rotate(0);
             }
         }
-        &-border {
-            border:1px dashed #BFC5CA;
-        }
     }
+
     &__header-spans {
         &__row {
             box-sizing: border-box;
@@ -79,6 +91,7 @@
             flex-direction: row;
         }
     }
+
     &__head {
         position: sticky;
         top:0;
@@ -100,6 +113,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+
             &-text {
                 overflow: hidden;
                 max-height: 100%;
@@ -107,9 +121,11 @@
                 font-weight: bold;
                 color: white;
             }
+
             &:not(:last-child) {
                 border-right: 2px solid white;
             }
+
             &::before{
                 content: '';
                 position: absolute;
@@ -121,6 +137,7 @@
             }
         }
     }
+
     &__body {
         display: flex;
         flex-direction: column;
@@ -138,10 +155,10 @@
         transition: border 0.4s ease;
         &:hover {
             transition: border 0.4s ease;
-            border: 1px solid $green;
+            border: 1px solid $blue;
         }
         & .table__select-square {
-            border: 1px solid $green;
+            border: 1px solid $blue;
             transform: translateX(-4px);
             border-radius: 4px;
         }

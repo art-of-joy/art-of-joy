@@ -1,8 +1,6 @@
- import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {tablePropsInterface} from "../../../ui/Table/model/types";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {User} from "../../../../entities/user";
-
-export type elementInterfaces = tablePropsInterface
+import {ROLE} from "../../../../entities/user/types";
 
 const initialState:User= {}
 
@@ -19,7 +17,7 @@ export const userSlice = createSlice({
         },
         deleteUser:(state, action:PayloadAction<User>) => {
             state.token = ''
-            state.role = 0
+            state.role = ROLE.guest
             state.firstname = ''
             state.surname = ''
             state.middlename = ''

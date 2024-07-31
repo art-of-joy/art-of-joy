@@ -1,31 +1,40 @@
 import React from 'react';
 import {store} from "../../shared/lib/store/store";
 import {Button} from "@mui/material";
-import {addLayoutMember, removeLayoutMember} from "../../shared/ui/Layout/model";
 import cssModules from './userMenu.scss'
-import {AddProduct} from "../../features/addProduct/ui";
-import {fetch} from "../../shared/lib/request/API";
-import {address} from "../../app/config";
+import {setMode} from "../../shared/lib/store/slices/pages/profilePageSlice";
+import {PROFILE_MODES} from "../../pages/profile/model/const";
 
 export const UserMenu = () => {
     const user = store.getState().user;
+
+    const onClickHandler = (mode: PROFILE_MODES) => {
+        store.dispatch(setMode(mode))
+    }
+
     return (
         <>
             <div className={cssModules.sidebarContainer}>
                 <ul>
-                    <li><Button>Ваши заказы</Button></li>
-                    <li><Button>Ваши отзывы</Button></li>
+                    <li>
+                        <Button
+                            onClick={()=> {
+                                onClickHandler(PROFILE_MODES.review)
+                            }}
+                        >Ваши заказы</Button>
+                    </li>
+                    <li>
+                        <Button
+                            onClick={()=> {
+                                onClickHandler(PROFILE_MODES.review)
+                            }}
+                        >Ваши отзывы</Button>
+                    </li>
                     {user.role == 0 &&
                         <li>
                             <Button
                                 onClick={()=> {
-                                     removeLayoutMember('main_profile_LA', [], true);
-                                     addLayoutMember('main_profile_LA', <AddProduct></AddProduct>);
-                                    //
-                                    // fetch('post', `${address}/exel`, {}, ()=> {
-                                    //
-                                    // })
-
+                                    onClickHandler(PROFILE_MODES.addProduct)
                                 }}
                             >Добавить товары</Button>
                         </li>

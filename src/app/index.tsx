@@ -6,7 +6,8 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {store} from "../shared/lib/store/store";
 import {SignUp} from "../pages/signup";
 import {LoginPage} from "../pages/login";
-import ProfilePage from "../pages/profile/ui/profile";
+import {ProfilePage} from "../pages/profile/ui/profile";
+import {AcceptCodePage} from "../pages/AcceptCodePage";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -29,10 +30,13 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <ProfilePage/>
     },
+    {
+        path: '/acceptCode',
+        element: <AcceptCodePage/>
+    }
 ])
 
 root.render(
-
     <Provider store={store}>
         <RouterProvider router={router}/>
     </Provider>

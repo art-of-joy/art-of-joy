@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react'
+import React, {ReactNode, useCallback, useEffect, useRef, useState} from 'react'
 import {tablePropsInterface} from '../model/types'
 import { tableDefault } from "../model/const";
 import { fetchTableData} from "../model";
@@ -10,7 +10,7 @@ import {
 } from "../model/fieldOperations"
 import {
   addSelectedKeys,
-  addExpansionKeys,
+  addExpansionKeys, getRenderedRows, changePageClickHandler,
 } from "../model/rowsOperations";
 import {useSelector} from "react-redux";
 
@@ -34,14 +34,17 @@ export function Table(props: tablePropsInterface)  {
   const resultProps = getResultProps("ui", props.id, currentTableProps, id);
 
   useEffect(() => {
-
+    store.dispatch(createElem(resultProps));
     if(store.getState().ui[resultProps.id!] != undefined) {
 
-      store.dispatch(createElem(resultProps));
+
       if (resultProps.dataSource) {
-        let ds = store.getState().ui[resultProps.dataSource] as innerDataSourceInterface;
-        if(resultProps.autoFetch && resultProps.dataSource && !ds.isLoading && !ds.data)
-          fetchTableData(resultProps.id!);
+        let ds = store.getState().ui[resultProps.dataSource] as innerDataSourceInterface | undefined;
+        if (ds) {
+          if(resultProps.autoFetch && resultProps.dataSource && !ds.isLoading && !ds.data)
+            fetchTableData(resultProps.id!);
+        }
+
       }
       if (resultProps.canExpansion)
         addExpansionField(resultProps);
@@ -73,7 +76,34 @@ export function Table(props: tablePropsInterface)  {
       return state.ui[resultProps.dataSource] as innerDataSourceInterface;
   });
 
+  useEffect(() => {
+    if (resultProps.dataSource) {
+      if (ds) {
+        if(resultProps.autoFetch && resultProps.dataSource && !ds.isLoading && !ds.data)
+          fetchTableData(resultProps.id!, {}, (response)=> {
+            console.log(response.data)
+          });
+      }
+    }
+  }, [ds]);
+
   const fields = getRenderedFields(resultProps);
+  const rows = getRenderedRows(resultProps)
+  const countRecords = useCallback(
+      () => resultProps.page*resultProps.recordsPerPage,
+      [resultProps.page,  resultProps.recordsPerPage]);
+  const endRecords = useCallback((): number => {
+    const result =  countRecords() + resultProps.recordsPerPage;
+
+    if (resultProps.records) {
+        if (resultProps.records.length > result) {
+          return result
+        } else {
+          return  resultProps.records.length
+        }
+    }
+      return result
+  }, [countRecords, resultProps.recordsPerPage, resultProps.page]);
 
   return (
     <div
@@ -85,9 +115,6 @@ export function Table(props: tablePropsInterface)  {
       onDragOver={(e) => {
         if (resultProps.canDropRecords)
           e.preventDefault();
-      }}
-      onDrop={(e)=> {
-
       }}
     >
       {resultProps.showHeaders && <div
@@ -109,8 +136,62 @@ export function Table(props: tablePropsInterface)  {
         data-elem={'table__body_'+resultProps.id!}
         key={"tableBody" + resultProps.id}
       >
-        {/*{rows && rows}*/}
-        {resultProps.loadElem ? resultProps.isLoading && resultProps.loadElem : resultProps.isLoading && <div className={getClassName(resultProps.classNames?.loader?.useDefault!, tableDefault.classNames?.loader?.name!, resultProps.classNames?.loader?.name!)}></div>}
+        {rows && rows}
+      </div>
+      <div
+          className={
+            getClassName(
+                resultProps.classNames?.pagination?.useDefault!,
+                tableDefault.classNames?.pagination?.name!,
+                resultProps.classNames?.pagination?.name!
+            )
+          }
+      >
+        <div>
+          <>
+            {countRecords() + 1} - {endRecords()}
+          </>
+        </div>
+        <div className={
+          getClassName(
+              resultProps.classNames?.paginationWrapper?.useDefault!,
+              tableDefault.classNames?.paginationWrapper?.name!,
+              resultProps.classNames?.paginationWrapper?.name!)
+        }
+        >
+
+          <div
+              className={
+                  getClassName(
+                      resultProps.classNames?.paginationArrow?.useDefault!,
+                      tableDefault.classNames?.paginationArrow?.name!,
+                      resultProps.classNames?.paginationArrow?.name!) + " " +
+                  getClassName(
+                      resultProps.classNames?.paginationArrowLeft?.useDefault!,
+                      tableDefault.classNames?.paginationArrowLeft?.name!,
+                      resultProps.classNames?.paginationArrowLeft?.name!
+                  )
+              }
+              onClick={(e) => {
+                changePageClickHandler(e, resultProps, false)
+              }}
+          >
+
+          </div>
+
+          <div
+              className={
+                getClassName(
+                    resultProps.classNames?.paginationArrow?.useDefault!,
+                    tableDefault.classNames?.paginationArrow?.name!,
+                    resultProps.classNames?.paginationArrow?.name! + '__left')
+              }
+              onClick={(e) => {
+                changePageClickHandler(e, resultProps)
+              }}
+          ></div>
+
+        </div>
       </div>
     </div>
   )

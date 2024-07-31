@@ -8,7 +8,7 @@ import {getResultProps} from "../../../lib/store/utils/getProps";
 import {store} from "../../../lib/store/store";
 import {getInnerProps, getAssignProps} from "../../../lib/store/utils/assignProps";
 
-export const Layout:React.FC<layoutInterface>= (props) => {
+const Layout:React.FC<layoutInterface>= (props) => {
 
     const [id] = useState(idGeneration(defaultLayout.id!));
 
@@ -36,6 +36,3 @@ export const Layout:React.FC<layoutInterface>= (props) => {
         </>
     );
 }
-
-
-export default Layout;

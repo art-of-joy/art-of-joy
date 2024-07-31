@@ -4,23 +4,20 @@ import {InputText, inputTextModel} from "../../shared/ui/formItems/InputText";
 import {store} from "../../shared/lib/store/store";
 import {setUser} from "../../shared/lib/store/slices/userSlice";
 import {registration, User} from "../../entities/user";
-import Layout from "../../shared/ui/Layout/ui";
-import {addLayoutMember, removeLayoutMember} from "../../shared/ui/Layout/model";
-import {AcceptCode} from "../../features/acceptCode";
-import {Link} from "react-router-dom";
-export const RegistrationForm = () => {
+import {Link, useNavigate} from "react-router-dom";
 
+export const RegistrationForm = () => {
+    const navigate = useNavigate();
     const callBackOKHandler = (response: Record<string, any>) => {
         const userData: User = {...response.data}
         userData.token = response.headers.token;
         store.dispatch(setUser(userData));
-        removeLayoutMember("regLA", [], true);
-        addLayoutMember('regLA', [<AcceptCode/>]);
+        navigate('/AcceptCode')
     }
 
     const callBackErrorHandler = (error: Record<string, any>) => {
-        if (error && error.data && error.data.errorList) {
-            inputTextModel.serverValidate(error.data);
+        if (error !== undefined && error.errorList !== undefined) {
+            inputTextModel.serverValidate(error);
         }
     }
 
@@ -44,10 +41,8 @@ export const RegistrationForm = () => {
     }
 
     return (
-        <Layout
-            id={"regLA"}
-            oriental={'vertical'}
-            styles={{
+        <div
+            style={{
                 width: 600,
                 margin: '50px auto',
                 alignItems: 'center'
@@ -73,7 +68,7 @@ export const RegistrationForm = () => {
             />
             <Button onClick={() => onSubmit()}>Зарегистрироваться</Button>
             <p>Уже зарегистрированы?<Link to={'/login'}> Войдите </Link></p>
-        </Layout>
+        </div>
     );
 };
 

@@ -12,6 +12,7 @@ export interface field extends mainProps {
   createRecord?(record:Record<string, any>): ReactNode | undefined
   valueMap?: Record<string, ReactNode>
 }
+
 export interface tablePropsInterface  extends mainProps {
   dataSource?: string
   emptyMessage?: ReactNode
@@ -41,6 +42,11 @@ export interface tablePropsInterface  extends mainProps {
     headerSpansFields?:className
     delete?:className
     deleteMark?:className
+    pagination?: className
+    paginationWrapper?:className
+    paginationArrow?:className
+    paginationArrowLeft?:className
+    paginationArrowRight?:className
   }
   rowClick?(record:Record<string, any>, rowNum:number, colNum:number): void
   cellClick?(record:Record<string, any>, rowNum:number, colNum:number): void
@@ -58,17 +64,8 @@ export interface tablePropsInterface  extends mainProps {
   headerSpans?: { title: string, fields: string[]}[]
   groupByField?: string
   canDelete?:boolean
-  treeGrid?: {
-    parentField: string
-    childField: string
-    fieldName: string
-    folderOffsetWidth?: number
-    onShow?(record:Record<string, any>, rowNum:number, colNum:number): void
-    onHide?(record:Record<string, any>, rowNum:number, colNum:number): void
-  }
   canDragRecords?: boolean
   canDropRecords?: boolean
-  treeGridSortedRecords?: boolean
 }
 export interface innerTablePropsInterface extends tablePropsInterface, innerMainProps {
   currentX?: number
@@ -78,4 +75,6 @@ export interface innerTablePropsInterface extends tablePropsInterface, innerMain
   changedRowIndex: number | null
   expansionRowsIndexes: number[]
   hiddenRecords?: Record<string, Record<string, any>[]>
+  recordsPerPage: 15 | 25 | 50 | 100
+  page: number
 }

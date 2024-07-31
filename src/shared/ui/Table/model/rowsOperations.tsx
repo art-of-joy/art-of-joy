@@ -1,7 +1,11 @@
 import {innerTablePropsInterface} from "./types";
 import {store} from "../../../lib/store/store";
 import {setProps} from "../../../lib/store/slices/uiSlice";
-
+import {ReactNode} from "react";
+import React from "react";
+import {getClassName} from "../../../lib/helpers/getClassName";
+import {tableDefault} from '../model/const'
+import {formatColWidth} from "./fieldOperations";
 
 export const addSelectedKeys = (table: innerTablePropsInterface) => {
     table = store.getState().ui[table.id!] as innerTablePropsInterface
@@ -70,5 +74,96 @@ export const rowClickHandler = (e: React.MouseEvent<HTMLElement>, tableProps: in
     }
     if(tableProps.rowClick)
         tableProps.rowClick(tableProps.records![index]!, row, colNum!);
+}
+
+export const getRenderedRows = (tableProps: innerTablePropsInterface): ReactNode[] | null => {
+    const table = store.getState().ui[tableProps.id!] as innerTablePropsInterface;
+
+    if (!table || !table.records) {
+        return null;
+    }
+
+    const renderedRows: ReactNode[] = [];
+    let i = table.page === 0 ? table.page : (table.page + 1 * table.recordsPerPage) - 1;
+    const defaultPage = table.page + 1 * table.recordsPerPage;
+    let isForEnd = table.page === 0 ? defaultPage : defaultPage + table.recordsPerPage;
+    for (i; i < isForEnd; i++) {
+
+        if (table.records[i]) {
+            renderedRows.push(
+                <div
+                    key={i}
+                    className={
+                        getClassName(
+                            table.classNames?.row?.useDefault!,
+                            tableDefault.classNames?.row?.name!,
+                            table.classNames?.row?.name!,
+                            table.visible
+                        )
+                    }
+                >
+                    {getRenderedRowsInner(table, i)}
+                </div>
+            );
+        }
+    }
+
+    return renderedRows.length > 0 ? renderedRows : null;
+};
+
+export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIndex: number): Array<ReactNode> | null => {
+    const table = store.getState().ui[tableProps.id!] as innerTablePropsInterface;
+    if (!table.fields)
+        return null
+
+    return (
+        table.fields.map((field, index) => {
+
+            if(field.createRecord) {
+                return field.createRecord(table.records![rowIndex])
+            }
+            const width = formatColWidth(field);
+            const colStyle = {
+                ...field.styles,
+                maxWidth: width,
+                minWidth: width,
+            }
+            return (
+                <div
+                    className={
+                    getClassName(
+                        table.classNames?.cell?.useDefault!,
+                        tableDefault.classNames?.cell?.name!,
+                        table.classNames?.cell?.name!,
+                        table.visible
+                    )
+                    }
+                    key={field.name! + index+ '' + rowIndex}
+                    style={colStyle}
+                >
+                    {table.records![rowIndex][field.name!]}
+                </div>
+            )
+        })
+    )
+}
+
+export const changePageClickHandler = (e: React.MouseEvent<HTMLElement>, tableProps: innerTablePropsInterface, isIncrement: boolean = true) => {
+    if (tableProps.records) {
+        let newPage = tableProps.page;
+        if (isIncrement) {
+            if (
+                tableProps.page === 0 ||
+                (tableProps.page + 1) * tableProps.recordsPerPage < tableProps.records.length
+            ) {
+                newPage++;
+            }
+        } else {
+            if (tableProps.page != 0) {
+                newPage--;
+            }
+        }
+        newPage != tableProps.page && store.dispatch(setProps({ id: tableProps.id!, key: "page", value: newPage }))
+    }
 }
 

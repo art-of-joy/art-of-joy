@@ -7,7 +7,8 @@ export interface mainProps {
     styles?: CSSProperties
 }
 
-export interface innerMainProps{
+export interface innerMainProps {
+
 }
 
 export interface className {

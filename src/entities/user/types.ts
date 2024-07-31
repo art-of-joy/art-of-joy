@@ -3,7 +3,13 @@ export interface User {
     middlename?: string
     surname?: string
     token?: string
-    role?: number
+    role?: ROLE
     email?: string
     phone?: string
+}
+
+export enum ROLE {
+    user    ,
+    admin   ,
+    guest
 }

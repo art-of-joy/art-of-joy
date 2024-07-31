@@ -1,39 +1,41 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button} from "@mui/material";
 import {InputText, inputTextModel} from "../../shared/ui/formItems/InputText";
 import {store} from "../../shared/lib/store/store";
 import {setUser} from "../../shared/lib/store/slices/userSlice";
 import {auth, User} from "../../entities/user";
-import Layout from "../../shared/ui/Layout/ui";
 import {Link, useNavigate} from "react-router-dom";
+import {AUTH_TYPES} from "../../features/acceptCode/model/types";
+
 export const LoginForm = () => {
 
     const navigate= useNavigate();
+
     const callBackOKHandler = (response: Record<string, any>) => {
         const userData: User = {...response.data}
         userData.token = response.headers.token;
         store.dispatch(setUser(userData));
         navigate('/profile');
     }
-    if (store.getState().user.token) {
+
+    const callBackErrorHandler = (error: Record<string, any>) => {
+        if (error !== undefined && error.errorList !== undefined) {
+            inputTextModel.serverValidate(error);
+        }
+    }
+
+    if (store.getState().user.token && store.getState().user.role !== 0) {
         auth(
             "",
             "",
             '',
             store.getState().user.token!,
-            3,
+            AUTH_TYPES.token,
             (response)=> callBackOKHandler(response),
-            (error) => {}
+            (error) => { callBackErrorHandler(error); },
         );
         return null;
     } else {
-
-
-        const callBackErrorHandler = (error: Record<string, any>) => {
-            if (error && error.data && error.data.errorList) {
-                inputTextModel.serverValidate(error.data);
-            }
-        }
 
         const sendRequest = () => {
             auth(
@@ -41,7 +43,7 @@ export const LoginForm = () => {
                 inputTextModel.getValue('password_authFormTI')!,
                 '',
                 '',
-                0,
+                AUTH_TYPES.password,
                 (response)=> callBackOKHandler(response),
                 (error) => callBackErrorHandler(error)
             );
@@ -58,10 +60,8 @@ export const LoginForm = () => {
         }
 
         return (
-            <Layout
-                id={"loginLA"}
-                oriental={'vertical'}
-                styles={{
+            <div
+                style={{
                     width: 600,
                     margin: '50px auto',
                     alignItems: 'center'
@@ -101,7 +101,7 @@ export const LoginForm = () => {
                 />
                 <Button onClick={() => onSubmit()}>Войти</Button>
                 <p>Нет аккаунта? <Link to={'/signup'}> Зарегистрируйтесь </Link></p>
-            </Layout>
+            </div>
         );
     }
 };
