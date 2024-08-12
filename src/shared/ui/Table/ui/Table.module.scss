@@ -8,13 +8,19 @@
     min-width: min-content;
     border-radius: 5px;
     background-color: white;
+    &__count-of-pages {
+        color: $blue;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+    }
     &__pagination {
         border-top: 1px solid $blue;
         &__wrapper {
             height: max-content;
             padding: 10px;
             display: flex;
-            gap: 5px;
+            gap: 10px;
             width: 40%;
             justify-content: end;
             margin: 0 0 0 auto;

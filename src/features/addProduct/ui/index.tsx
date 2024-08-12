@@ -29,8 +29,9 @@ export const AddProduct = () => {
          token: store.getState().user.token
        }
     }, (response)=> {
-        console.log(response.data)
         store.dispatch(setProps({id: 'excel', key: 'records', value: response.data}));
+        store.dispatch(setProps({id: 'excel', key: 'isLoading', value: false}));
+
     });
 
     return (

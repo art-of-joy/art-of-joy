@@ -5,6 +5,8 @@ export interface field extends mainProps {
   name?: string
   title?: string
   showTitle?: boolean
+  type?: 'select' | 'delete' | 'edit' | 'expansion'
+  allCheckbox?: boolean
   colWidth?: {
     value: number
     unit: 'px' | '%'
@@ -47,6 +49,7 @@ export interface tablePropsInterface  extends mainProps {
     paginationArrow?:className
     paginationArrowLeft?:className
     paginationArrowRight?:className
+    countOfPages?: className
   }
   rowClick?(record:Record<string, any>, rowNum:number, colNum:number): void
   cellClick?(record:Record<string, any>, rowNum:number, colNum:number): void

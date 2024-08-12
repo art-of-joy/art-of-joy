@@ -2,7 +2,7 @@ import {innerTablePropsInterface} from './types'
 import styles from '../ui/Table.module.scss'
 export const tableDefault: innerTablePropsInterface = {
   id: 'table',
-  isLoading: false,
+  isLoading: true,
   emptyMessage: 'Полей нет',
   fields: [
     { name: 'Поле 1', styles: {width: '100px'}},
@@ -37,6 +37,7 @@ export const tableDefault: innerTablePropsInterface = {
     paginationArrowRight: {name: styles["table__pagination__arrow--right"], useDefault:true},
     paginationWrapper: {name: styles["table__pagination__wrapper"], useDefault:true},
     pagination: {name: styles["table__pagination"], useDefault:true},
+    countOfPages: {name: styles["table__count-of-pages"], useDefault:true},
   },
   selectColNum: 0,
   countRowForFetch: 10,

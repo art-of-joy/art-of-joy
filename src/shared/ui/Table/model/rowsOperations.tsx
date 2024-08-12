@@ -1,40 +1,24 @@
-import {innerTablePropsInterface} from "./types";
+import {field, innerTablePropsInterface} from "./types";
 import {store} from "../../../lib/store/store";
 import {setProps} from "../../../lib/store/slices/uiSlice";
 import {ReactNode} from "react";
 import React from "react";
 import {getClassName} from "../../../lib/helpers/getClassName";
-import {tableDefault} from '../model/const'
+import {tableDefault} from './const'
 import {formatColWidth} from "./fieldOperations";
 
-export const addSelectedKeys = (table: innerTablePropsInterface) => {
+export const addKeysByFieldType = (table: innerTablePropsInterface, field: field) => {
     table = store.getState().ui[table.id!] as innerTablePropsInterface
-    if (table.canSelected) {
-        let data = table.records;
-        if(data){
-            const copyData:Array<Record<string, any>> = data?.map(record => {
-                const modifiedRecord = { ...record };
-                if(!modifiedRecord['selected'])
-                    modifiedRecord["selected"] = false;
-                return modifiedRecord;
-            })
-            store.dispatch(setProps({id:table.id!, key:"records", value:copyData}))
-        }
-    }
-}
-export const addExpansionKeys = (table: innerTablePropsInterface) => {
-    table = store.getState().ui[table.id!] as innerTablePropsInterface
-    if (table.canExpansion) {
-        let data = table.records;
-        if (data) {
-            const copyData:Array<Record<string, any>> = data.map(record => {
-                const modifiedRecord = { ...record };
-                if(!modifiedRecord['expansion'])
-                    modifiedRecord["expansion"] = false;
-                return modifiedRecord;
-            })
-            store.dispatch(setProps({id:table.id!, key:"records", value:copyData}))
-        }
+    let data = table.records;
+    if(data){
+        const copyData:Array<Record<string, any>> = data.map(record => {
+            const modifiedRecord = { ...record };
+            const recordKey = field.name ? field.name : field.type!;
+            if(!modifiedRecord[recordKey])
+                modifiedRecord[recordKey] = false;
+            return modifiedRecord;
+        })
+       return copyData
     }
 }
 
@@ -128,17 +112,57 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
                 maxWidth: width,
                 minWidth: width,
             }
+            if (field.type) {
+                const recordKey = field.name ? field.name : field.type!;
+
+                return (
+                    <div
+                        className={
+                            getClassName(
+                                table.classNames?.select?.useDefault!,
+                                tableDefault.classNames?.select?.name!,
+                                table.classNames?.select?.name!,
+                                table.visible
+                            )
+                        }
+                        key={field.name! + index + '' + rowIndex}
+                        style={colStyle}
+                        onClick={() => {
+                            const newRecords = table.records!.map((record: Record<string, any>, recordIndex) => {
+                                const newRecord = {...record}
+                                if (recordIndex === rowIndex) {
+                                    newRecord[recordKey] = !newRecord[recordKey]
+                                }
+                                return newRecord;
+                            })
+
+                            store.dispatch(setProps({id: tableProps.id!, key: 'records', value: newRecords}))
+                        }}
+                    >
+                        <div
+                            className={
+                                getClassName(table.classNames?.selectSquare?.useDefault!, tableDefault.classNames?.selectSquare?.name!, table.classNames?.selectSquare?.name!)
+                            }
+                        >
+                            {(field.allCheckbox || table.records![rowIndex][recordKey]) && <div
+                                className={getClassName(table.classNames?.selectCheckMark?.useDefault!, tableDefault.classNames?.selectCheckMark?.name!, table.classNames?.selectCheckMark?.name!)}
+                            >
+                            </div>}
+                        </div>
+                    </div>
+                )
+            }
             return (
                 <div
                     className={
-                    getClassName(
-                        table.classNames?.cell?.useDefault!,
-                        tableDefault.classNames?.cell?.name!,
-                        table.classNames?.cell?.name!,
-                        table.visible
-                    )
+                        getClassName(
+                            table.classNames?.cell?.useDefault!,
+                            tableDefault.classNames?.cell?.name!,
+                            table.classNames?.cell?.name!,
+                            table.visible
+                        )
                     }
-                    key={field.name! + index+ '' + rowIndex}
+                    key={field.name! + index + '' + rowIndex}
                     style={colStyle}
                 >
                     {table.records![rowIndex][field.name!]}

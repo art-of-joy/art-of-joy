@@ -189,38 +189,61 @@ export const getFieldLayout = (props: innerTablePropsInterface, index: number, u
         {getFieldInnerLayout(props, index)}
     </div>
 }
-export const setAllSelect = (id: string) => {
+export const setAllCheckBoxByName = (id: string, field: field) => {
     const table = store.getState().ui[id] as innerTablePropsInterface;
+
     if (table.records) {
-        const records = [...table.records];
-        records.forEach(record => {
-            record['selected'] = table.selectedAll;
+        const recordKey = field.name ? field.name : field.type!;
+
+        const records = table.records.map(record => {
+            const newRecords = {...record}
+            newRecords[recordKey] = !field.allCheckbox;
+            return newRecords;
         })
+
         store.dispatch(setProps({id, key: 'records', value: records}));
     }
-
 }
+
 export const getFieldInnerLayout = (props: innerTablePropsInterface, index: number): ReactNode => {
 
     const field = props.fields![index];
-    if (field.name === 'enot-select') {
+    if (field.type === 'select') {
        return (
            <div
                onClick={ () => {
-                   store.dispatch(setProps({id:props.id!, key:"selectedAll", value:!props.selectedAll}))
-                   setAllSelect(props.id!);
+                   const newFields = props.fields!.map((fieldItem, fieldIndex) => {
+                       const newField = {...fieldItem}
+                       if (fieldIndex === index) {
+                            if (newField.allCheckbox) {
+                                newField.allCheckbox = !newField.allCheckbox
+                            } else {
+                                newField.allCheckbox = true;
+                            }
+                       }
+
+                       return newField
+                   });
+                    console.log(newFields)
+                   store.dispatch(setProps({id:props.id!, key:"fields", value:newFields}))
+                   setAllCheckBoxByName(props.id!, field);
                }}
                className={getClassName(props.classNames?.select?.useDefault!, tableDefault.classNames?.select?.name!, props.classNames?.select?.name!)}
            >
                <div
-                   className={getClassName(props.classNames?.selectSquare?.useDefault!, tableDefault.classNames?.selectSquare?.name!, props.classNames?.selectSquare?.name!)}
+                   className={
+                       getClassName(props.classNames?.selectSquare?.useDefault!, tableDefault.classNames?.selectSquare?.name!, props.classNames?.selectSquare?.name!)
+                   }
                >
-
+                   {field.allCheckbox && <div
+                       className={getClassName(props.classNames?.selectCheckMark?.useDefault!, tableDefault.classNames?.selectCheckMark?.name!, props.classNames?.selectCheckMark?.name!)}
+                   >
+                   </div>}
                </div>
            </div>
        );
     } else {
-        if(field.showTitle == undefined || field.showTitle) {
+        if (field.showTitle == undefined || field.showTitle) {
             if (field.title)
                 return <div
                     className={getClassName(props.classNames?.headCellText?.useDefault!, tableDefault.classNames?.headCellText?.name!, props.classNames?.headCellText?.name!)}

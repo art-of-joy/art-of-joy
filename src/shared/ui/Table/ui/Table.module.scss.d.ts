@@ -6,6 +6,7 @@ interface CssExports {
   'table__body': string;
   'table__cell': string;
   'table__cell-text': string;
+  'table__count-of-pages': string;
   'table__delete': string;
   'table__delete-mark': string;
   'table__expansion-arrow': string;

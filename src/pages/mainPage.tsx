@@ -9,26 +9,31 @@ export const MainPage = () => {
     return (
         <Page>
             <Header/>
-            <AddProduct></AddProduct>
             <Table
                 id={'excel'}
-                fields={[
-                    {name: 'article', title: 'Артикул', createRecord(record: Record<string, any>): React.ReactNode | undefined {
-                        console.log('Пипка')
-                        return (<>
-                            <InputText value={record['article']}/>
-                        </>)
-                        }},
-                    {name: 'article_wb', title: 'Артикул с WB'},
-                    {name: 'color', title: 'Цвет'},
-                    {name: 'name', title: 'Название'},
-                    {name: 'size', title: 'Размер'},
-                    {name: 'description', title: 'Описание', colWidth: {value: 700, unit: 'px'} },
-                    {name: 'ru_size', title: 'Размер РФ'},
-                    {name: 'subcategoryName', title: 'Подкатегория'},
-                ]}
-                canSelected={true}
-            ></Table>
+                fields={
+                    [
+                        {name: 'product-select', type: 'select'},
+                        {name: 'article', title: 'Артикул',
+                            createRecord(record: Record<string, any>): React.ReactNode | undefined {
+                                return (
+                                    <>
+                                    <InputText id={record['article_wb']} value={record['article']}/>
+                                    </>
+                                )
+                            }},
+                        {name: 'article_wb', title: 'Артикул с WB'},
+                        {name: 'color', title: 'Цвет'},
+                        {name: 'name', title: 'Название'},
+                        {name: 'size', title: 'Размер'},
+                        {name: 'description', title: 'Описание', colWidth: {value: 700, unit: 'px'} },
+                        {name: 'ru_size', title: 'Размер РФ'},
+                        {name: 'subcategoryName', title: 'Подкатегория'},
+                    ]
+                }
+            />
+            <AddProduct></AddProduct>
+
         </Page>
     );
 };

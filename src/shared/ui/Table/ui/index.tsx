@@ -9,8 +9,7 @@ import {
   sortHeaderSpansFields, addDeleteField, getHeaderSpansFieldsWidth
 } from "../model/fieldOperations"
 import {
-  addSelectedKeys,
-  addExpansionKeys, getRenderedRows, changePageClickHandler,
+  addKeysByFieldType, getRenderedRows, changePageClickHandler,
 } from "../model/rowsOperations";
 import {useSelector} from "react-redux";
 
@@ -21,7 +20,7 @@ import {getClassName} from "../../../lib/helpers/getClassName";
 import {RootState, store} from "../../../lib/store/store";
 import {idGeneration} from "../../../lib/store/utils/idGeneration";
 import {innerDataSourceInterface} from "../../DataSource/model/types";
-import {createElem} from "../../../lib/store/slices/uiSlice";
+import {createElem, setProps} from "../../../lib/store/slices/uiSlice";
 
 
 export function Table(props: tablePropsInterface)  {
@@ -59,12 +58,27 @@ export function Table(props: tablePropsInterface)  {
     }
   }, []);
 
-  useEffect(() => {
-    if(resultProps.canSelected)
-      addSelectedKeys(resultProps);
-    if(resultProps.canExpansion)
-      addExpansionKeys(resultProps);
+
+
+  const records = useCallback(() => {
+    let result = resultProps.records;
+
+    resultProps.fields!.forEach((field) => {
+      if (field.type) {
+        result = addKeysByFieldType(resultProps, field);
+      }
+    });
+
+    return result;
   }, [resultProps.isLoading]);
+
+  useEffect(() => {
+    const newRecords = records();
+
+    if (Array.isArray(newRecords)) {
+      store.dispatch(setProps({ id: resultProps.id!, key: "records", value: newRecords }));
+    }
+  }, [records]);
 
   useEffect(() => {
    getHeaderSpansFieldsWidth(resultProps, tableHeadRow);
@@ -147,11 +161,7 @@ export function Table(props: tablePropsInterface)  {
             )
           }
       >
-        <div>
-          <>
-            {countRecords() + 1} - {endRecords()}
-          </>
-        </div>
+
         <div className={
           getClassName(
               resultProps.classNames?.paginationWrapper?.useDefault!,
@@ -159,7 +169,17 @@ export function Table(props: tablePropsInterface)  {
               resultProps.classNames?.paginationWrapper?.name!)
         }
         >
-
+          <div
+            className={getClassName(
+                resultProps.classNames?.countOfPages?.useDefault!,
+                tableDefault.classNames?.countOfPages?.name!,
+                resultProps.classNames?.countOfPages?.name!
+            )}
+          >
+            <>
+              {countRecords() + 1} - {endRecords()}
+            </>
+          </div>
           <div
               className={
                   getClassName(
