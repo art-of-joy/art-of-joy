@@ -137,16 +137,17 @@ export const getHeaderSpansLayout = (props: innerTablePropsInterface) => {
             result.push(
                 <div
                     key={'headerSpan_'+i}
-                    className={getClassName(props.classNames?.headerSpansRow?.useDefault!, tableDefault.classNames?.headerSpansRow?.name!, props.classNames?.headerSpansRow?.name!)}
+                    className={getClassName(tableDefault, props, 'headerSpansRow')}
                     style={headerSpanStyle}
                 >
                     <div
-                        className={getClassName(props.classNames?.headerSpansCell?.useDefault!, tableDefault.classNames?.headerSpansCell?.name!, props.classNames?.headerSpansCell?.name!)}
+                        className={getClassName(tableDefault, props, 'headerSpansCell')}
+
                     >
                         {props.headerSpans![headerSpanIndex].title}
                     </div>
                     <div
-                        className={getClassName(props.classNames?.headerSpansFields?.useDefault!, tableDefault.classNames?.headerSpansFields?.name!, props.classNames?.headerSpansFields?.name!)}
+                        className={getClassName(tableDefault, props, 'headerSpansFields')}
                     >
                         {spansFields}
                     </div>
@@ -183,7 +184,7 @@ export const getFieldLayout = (props: innerTablePropsInterface, index: number, u
             onDragHandler(e, props, index);
         }}
 
-        className={getClassName(props.classNames?.headCell?.useDefault!, tableDefault.classNames?.headCell?.name!, props.classNames?.headCell?.name!)}
+        className={getClassName(tableDefault, props, 'headCell')}
         key={"tableField" + props.id + index}
     >
         {getFieldInnerLayout(props, index)}
@@ -228,15 +229,13 @@ export const getFieldInnerLayout = (props: innerTablePropsInterface, index: numb
                    store.dispatch(setProps({id:props.id!, key:"fields", value:newFields}))
                    setAllCheckBoxByName(props.id!, field);
                }}
-               className={getClassName(props.classNames?.select?.useDefault!, tableDefault.classNames?.select?.name!, props.classNames?.select?.name!)}
+               className={getClassName(tableDefault, props , 'select')}
            >
                <div
-                   className={
-                       getClassName(props.classNames?.selectSquare?.useDefault!, tableDefault.classNames?.selectSquare?.name!, props.classNames?.selectSquare?.name!)
-                   }
+                   className={getClassName(tableDefault, props , 'selectSquare')}
                >
                    {field.allCheckbox && <div
-                       className={getClassName(props.classNames?.selectCheckMark?.useDefault!, tableDefault.classNames?.selectCheckMark?.name!, props.classNames?.selectCheckMark?.name!)}
+                       className={getClassName(tableDefault, props , 'selectCheckMark')}
                    >
                    </div>}
                </div>
@@ -246,15 +245,15 @@ export const getFieldInnerLayout = (props: innerTablePropsInterface, index: numb
         if (field.showTitle == undefined || field.showTitle) {
             if (field.title)
                 return <div
-                    className={getClassName(props.classNames?.headCellText?.useDefault!, tableDefault.classNames?.headCellText?.name!, props.classNames?.headCellText?.name!)}
+                    className={getClassName(tableDefault, props, 'headCellText')}
                 >{field.title}</div>
             else
                 return <div
-                    className={getClassName(props.classNames?.headCellText?.useDefault!, tableDefault.classNames?.headCellText?.name!, props.classNames?.headCellText?.name!)}
+                    className={getClassName(tableDefault, props, 'headCellText')}
                 >{field.name}</div>
         } else if (!field.showTitle) {
             return <div
-                className={getClassName(props.classNames?.headCellText?.useDefault!, tableDefault.classNames?.headCellText?.name!, props.classNames?.headCellText?.name!)}
+                className={getClassName(tableDefault, props, 'headCellText')}
             ></div>
         }
     }

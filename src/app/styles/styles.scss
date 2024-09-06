@@ -1,3 +1,9 @@
+
+
+@import "null";
+@import "adaptive";
+@import "vars";
+
 .d-none {
   display: none;
 }
@@ -26,6 +32,21 @@
   display: none;
 }
 
-@import "null";
-@import "adaptive";
-@import "vars";
+/* Стили для всех скроллбаров на странице */
+::-webkit-scrollbar {
+  width: 4px; /* ширина вертикального скроллбара */
+  height: 4px; /* высота горизонтального скроллбара */
+}
+
+/* Стили для трека скроллбара */
+::-webkit-scrollbar-track {
+  background: $white; /* цвет фона трека */
+}
+
+/* Стили для ползунка скроллбара */
+::-webkit-scrollbar-thumb {
+  border: solid 1px $blue;
+  background: $blue;
+  border-radius: 10px; /* скругление углов ползунка */
+}
+

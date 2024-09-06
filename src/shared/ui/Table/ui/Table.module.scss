@@ -229,6 +229,8 @@
         box-sizing: border-box;
         padding: 10px 5px;
         text-align: center;
+        max-height: 140px;
+        overflow-x: auto;
         &-text {
             max-width: 100%;
             max-height: 100%;

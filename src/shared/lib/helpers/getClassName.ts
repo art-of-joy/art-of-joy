@@ -1,19 +1,20 @@
 import styles from '../../../app/styles/styles.scss'
 export const getClassName = (
-    useDefaultClass: boolean,
-    defaultStyle: string,
-    propsStyle: string,
+    defaultProps: Record<string, any>,
+    props: Record<string, any>,
+    key: string,
     visibility: boolean = true
 ): string => {
     let resultClassName = '';
-    if (useDefaultClass)
-        if (propsStyle === defaultStyle)
-           resultClassName = defaultStyle;
+    console.log(key, props.classNames[key])
+    if (props && props.classNames && props.classNames[key].useDefaultClass)
+        if (props.classNames[key].name === defaultProps.classNames[key].name)
+           resultClassName = defaultProps.classNames[key].name;
         else
-           resultClassName = `${defaultStyle} ${propsStyle}`;
+           resultClassName = `${defaultProps.classNames[key].name} ${props.classNames[key].name}`;
     else
-        if (propsStyle !== undefined)
-           resultClassName = propsStyle
+        if (props.classNames[key].name)
+           resultClassName = props.classNames[key].name
     if(!visibility)
         resultClassName = resultClassName + " " +styles.hide
     return resultClassName

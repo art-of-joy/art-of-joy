@@ -2,11 +2,10 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setPropsByKey, setPropsByKeys, updatePropsByKey} from "../utils/setProps";
 import {tablePropsInterface} from "../../../ui/Table/model/types";
 import {innerHintInterface} from "../../../ui/Hint/model/types";
-import {innerLayoutInterface} from "../../../ui/Layout/model/types";
 import {inputTextPropsInterface} from "../../../ui/formItems/InputText/model/types";
 import {innerDataSourceInterface} from "../../../ui/DataSource/model/types";
 
-export type elementInterfaces = tablePropsInterface | innerHintInterface | innerLayoutInterface | inputTextPropsInterface | innerDataSourceInterface
+export type elementInterfaces = tablePropsInterface | innerHintInterface | inputTextPropsInterface | innerDataSourceInterface
 
 const initialState:Record<string, elementInterfaces> = {}
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {idGeneration} from "../../../lib/store/utils/idGeneration"
 import {getInnerProps} from "../../../lib/store/utils/assignProps";
 import {getResultProps} from "../../../lib/store/utils/getProps";
@@ -12,13 +12,17 @@ export const Hint = (props:hintInterface) => {
 
     const [id] = useState(idGeneration(defaultHint.id!));
 
-    let layoutProps = getInnerProps(defaultHint, props)
+    const currentProps = getInnerProps(defaultHint, props)
 
-    const resultProps = getResultProps('ui', props.id, layoutProps, id);
+    const resultProps = getResultProps('ui', props.id, currentProps, id);
 
     useEffect(() => {
         store.dispatch(createElem(resultProps))
     })
+
+    const  getClassNameByKey = useCallback((key: string) => {
+        return getClassName(defaultHint, resultProps, key)
+    }, [defaultHint, resultProps])
 
     return(
         <div
@@ -26,16 +30,16 @@ export const Hint = (props:hintInterface) => {
             key={resultProps.id}
             style={{...resultProps.className?.hintWrapper!.style, ...resultProps.styles}}
             className={
-                (resultProps.hintIcon ? '' : getClassName(resultProps.className?.hintIcon?.useDefault!, defaultHint.className?.hintIcon?.name!, resultProps.className?.hintIcon?.name!, resultProps.visible)) + " " +
-                (resultProps.status == 'warning' ? getClassName(resultProps.className?.warningIcon?.useDefault!, defaultHint.className?.warningIcon?.name!, resultProps.className?.warningIcon?.name!, resultProps.visible) : '') + " " +
-                (resultProps.status == 'info' ? getClassName(resultProps.className?.infoIcon?.useDefault!, defaultHint.className?.infoIcon?.name!, resultProps.className?.infoIcon?.name!, resultProps.visible) : '') + " " +
-                (resultProps.status == 'error' ? getClassName(resultProps.className?.errorIcon?.useDefault!, defaultHint.className?.errorIcon?.name!, resultProps.className?.errorIcon?.name!, resultProps.visible) : '') + " " +
-                (resultProps.status == 'ok' ? getClassName(resultProps.className?.okIcon?.useDefault!, defaultHint.className?.okIcon?.name!, resultProps.className?.okIcon?.name!, resultProps.visible) : '')
+                (resultProps.hintIcon ? '' : getClassNameByKey('hintIcon')) + " " +
+                (resultProps.status == 'warning' && getClassNameByKey('warningIcon')) + " " +
+                (resultProps.status == 'info' && getClassNameByKey('infoIcon')) + " " +
+                (resultProps.status == 'error' && getClassNameByKey('errorIcon')) + " " +
+                (resultProps.status == 'ok' && getClassNameByKey('okIcon'))
             }
         >
             {resultProps.hintIcon}
             <div
-                className={getClassName(resultProps.className?.hintInner?.useDefault!, defaultHint.className?.hintInner?.name!, resultProps.className?.hintInner?.name!, resultProps.visible)}
+                className={getClassNameByKey('hintInner')}
                 style={resultProps.className?.hintInner?.style}
             >
                 {resultProps.hintInner}

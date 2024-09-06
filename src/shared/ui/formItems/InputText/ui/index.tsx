@@ -1,4 +1,4 @@
-import React, {useEffect, ChangeEvent, useState, CSSProperties} from "react";
+import React, {useEffect, ChangeEvent, useState, CSSProperties, useCallback} from "react";
 import { inputTextPropsInterface } from "../model/types";
 import {createElem, setProps} from '../../../../lib/store/slices/uiSlice'
 import {store} from "../../../../lib/store/store"
@@ -78,23 +78,27 @@ export const InputText:React.FC<inputTextPropsInterface>= (props) => {
         checkInnerHint(resultProps);
     }, [resultProps.invalidValidatorsIndexes]);
 
+    const getClassNamesByKey = useCallback((key: string) => {
+        return getClassName(defaultInputText, resultProps, key, resultProps.visible)
+    }, [resultProps, defaultInputText])
+
     return (
         <div
-            className={getClassName(resultProps.classNames?.hintWrapper?.useDefault!, defaultInputText.classNames?.hintWrapper?.name!, resultProps.classNames?.hintWrapper?.name!, resultProps.visible)}
+            className={getClassNamesByKey('hintWrapper')}
             style={resultProps.classNames?.hintWrapper?.style}
         >
             { resultProps.invalidValidatorsIndexes && resultProps.invalidValidatorsIndexes.length !== 0 ? getHintElement(resultProps) : '' }
             <div
                 className={
-                    getClassName(resultProps.classNames?.inputWrapper?.useDefault!, defaultInputText.classNames?.inputWrapper?.name!, resultProps.classNames?.inputWrapper?.name!, resultProps.visible) + ' ' +
-                    (resultProps.value ? '' : getClassName(resultProps.classNames?.empty?.useDefault!, defaultInputText.classNames?.empty?.name!, resultProps.classNames?.empty?.name!, resultProps.visible))
+                    getClassNamesByKey('inputWrapper')  + ' ' +
+                    (resultProps.value ? '' : getClassNamesByKey('empty'))
                 }
                 style={{...titleAlign,...resultProps.classNames?.inputWrapper?.style}}
             >
                 <label
                     className={
-                        getClassName(resultProps.classNames?.title?.useDefault!, defaultInputText.classNames?.title?.name!, resultProps.classNames?.title?.name!, resultProps.visible) + ' ' +
-                        (resultProps.isFocused ? getClassName(resultProps.classNames?.titleActive?.useDefault!, defaultInputText.classNames?.titleActive?.name!, resultProps.classNames?.titleActive?.name!, resultProps.visible) : '')
+                        getClassNamesByKey('title') + ' ' +
+                        (resultProps.isFocused ? getClassNamesByKey('titleActive') : '')
                     }
                     htmlFor={resultProps.id}
                     style={resultProps.classNames?.title?.style}
@@ -106,7 +110,7 @@ export const InputText:React.FC<inputTextPropsInterface>= (props) => {
                     data-id={resultProps.id}
                     id={resultProps.id}
                     key={resultProps.id}
-                    className={ getClassName(resultProps.classNames?.input?.useDefault!, defaultInputText.classNames?.input?.name!, resultProps.classNames?.input?.name!, resultProps.visible) }
+                    className={ getClassNamesByKey('input')}
                     name={resultProps.name}
                     placeholder={resultProps.title ? "" : resultProps.placeholder}
                     value={String(resultProps.value)}

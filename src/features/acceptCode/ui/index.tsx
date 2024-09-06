@@ -3,7 +3,6 @@ import {InputText, inputTextModel} from "../../../shared/ui/formItems/InputText"
 import {fetch} from "../../../shared/lib/request/API";
 import {address} from "../../../app/config";
 import {store} from "../../../shared/lib/store/store";
-import {addLayoutMember, removeLayoutMember} from "../../../shared/ui/Layout/model";
 import {UserInfoForm} from "../../userInfo";
 import {Button} from "@mui/material";
 import {setUser} from "../../../shared/lib/store/slices/userSlice";
@@ -24,8 +23,6 @@ export const AcceptCode = () => {
             const userData: User = {...response.data}
             userData.token = store.getState().user.token;
             store.dispatch(setUser(userData));
-            removeLayoutMember('regLA', [], true);
-            addLayoutMember('regLA', <UserInfoForm/>);
         },
 (error) => {
                 inputTextModel.serverValidate(error);

@@ -119,10 +119,15 @@ export function Table(props: tablePropsInterface)  {
       return result
   }, [countRecords, resultProps.recordsPerPage, resultProps.page]);
 
+
+ const getClassNames = useCallback((key: string): string => {
+   return getClassName(tableDefault, resultProps, key, resultProps.visible)
+ }, [tableDefault, resultProps])
+
   return (
     <div
       data-id={resultProps.id}
-      className={getClassName(resultProps.classNames?.table?.useDefault!, tableDefault.classNames?.table?.name!, resultProps.classNames?.table?.name!, resultProps.visible)}
+      className={getClassNames('table')}
       style={getInnerProps(tableDefault.styles!, resultProps.styles!)}
       ref={table}
       key={resultProps.id+'table'}
@@ -132,12 +137,12 @@ export function Table(props: tablePropsInterface)  {
       }}
     >
       {resultProps.showHeaders && <div
-        className={getClassName(resultProps.classNames?.head?.useDefault!, tableDefault.classNames?.head?.name!, resultProps.classNames?.head?.name!)}
+        className={getClassNames('head')}
         ref={tableHead}
         key={"tableHeader" + resultProps.id}
       >
         <div
-          className={getClassName(resultProps.classNames?.headRow?.useDefault!, tableDefault.classNames?.headRow?.name!, resultProps.classNames?.headRow?.name!)}
+          className={getClassNames('headRow')}
           data-elem={'table__head_'+resultProps.id!}
           key={resultProps.id+'tableHeadRow'}
           ref={tableHeadRow}
@@ -146,7 +151,7 @@ export function Table(props: tablePropsInterface)  {
         </div>
       </div>}
       <div
-        className={getClassName(resultProps.classNames?.body?.useDefault!, tableDefault.classNames?.body?.name!, resultProps.classNames?.body?.name!)}
+        className={getClassNames('body')}
         data-elem={'table__body_'+resultProps.id!}
         key={"tableBody" + resultProps.id}
       >
@@ -154,27 +159,16 @@ export function Table(props: tablePropsInterface)  {
       </div>
       <div
           className={
-            getClassName(
-                resultProps.classNames?.pagination?.useDefault!,
-                tableDefault.classNames?.pagination?.name!,
-                resultProps.classNames?.pagination?.name!
-            )
+            getClassNames('pagination')
           }
       >
 
         <div className={
-          getClassName(
-              resultProps.classNames?.paginationWrapper?.useDefault!,
-              tableDefault.classNames?.paginationWrapper?.name!,
-              resultProps.classNames?.paginationWrapper?.name!)
+          getClassNames('paginationWrapper')
         }
         >
           <div
-            className={getClassName(
-                resultProps.classNames?.countOfPages?.useDefault!,
-                tableDefault.classNames?.countOfPages?.name!,
-                resultProps.classNames?.countOfPages?.name!
-            )}
+            className={getClassNames('countOfPages')}
           >
             <>
               {countRecords() + 1} - {endRecords()}
@@ -182,29 +176,17 @@ export function Table(props: tablePropsInterface)  {
           </div>
           <div
               className={
-                  getClassName(
-                      resultProps.classNames?.paginationArrow?.useDefault!,
-                      tableDefault.classNames?.paginationArrow?.name!,
-                      resultProps.classNames?.paginationArrow?.name!) + " " +
-                  getClassName(
-                      resultProps.classNames?.paginationArrowLeft?.useDefault!,
-                      tableDefault.classNames?.paginationArrowLeft?.name!,
-                      resultProps.classNames?.paginationArrowLeft?.name!
-                  )
+                  getClassNames('paginationArrow') + " " +
+                  getClassNames('paginationArrowLeft')
               }
               onClick={(e) => {
                 changePageClickHandler(e, resultProps, false)
               }}
           >
-
           </div>
-
           <div
               className={
-                getClassName(
-                    resultProps.classNames?.paginationArrow?.useDefault!,
-                    tableDefault.classNames?.paginationArrow?.name!,
-                    resultProps.classNames?.paginationArrow?.name! + '__left')
+                  getClassNames('paginationArrow') + "__left"
               }
               onClick={(e) => {
                 changePageClickHandler(e, resultProps)

@@ -1,14 +1,10 @@
 import React from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
-import {fetch} from "../../../shared/lib/request/API";
-import {address} from "../../../app/config";
-import {RootState, store} from "../../../shared/lib/store/store";
 import {useSelector} from "react-redux";
-import {PROFILE_MODES} from "../../../pages/profile/model/const";
-import {setProps} from "../../../shared/lib/store/slices/uiSlice";
-
-export const AddProduct = () => {
+import {address} from "../../../../app/config";
+import {RootState, store} from "../../../../shared/lib/store/store";
+import {setProps} from "../../../../shared/lib/store/slices/uiSlice";
+import {fetch} from "../../../../shared/lib/request/API";
+const SelectExcel = () => {
 
     const {mode} = useSelector((state: RootState) => state.profilePage);
 
@@ -24,29 +20,20 @@ export const AddProduct = () => {
     const form = new FormData()
     form.set('exelData', exelData);
     fetch('post',`${address}/exel`, {
-       params: {exelData},
-       headers: {
-         token: store.getState().user.token
-       }
+        params: {exelData},
+        headers: {
+            token: store.getState().user.token
+        }
     }, (response)=> {
+
+        // store.dispatch(setProps())
         store.dispatch(setProps({id: 'excel', key: 'records', value: response.data}));
         store.dispatch(setProps({id: 'excel', key: 'isLoading', value: false}));
-
     });
 
     return (
-        <>
-            <LoadingButton
-                style={{maxHeight: 40}}
-                onClick={(e) => {handleClick(e)}}
-                endIcon={<SendIcon />}
-                loading={false}
-                loadingPosition="end"
-                variant="contained"
-            >
-                Загрузите файл
-            </LoadingButton>
-        </>
+        <></>
     );
 };
 
+export default SelectExcel;

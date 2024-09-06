@@ -78,12 +78,9 @@ export const getRenderedRows = (tableProps: innerTablePropsInterface): ReactNode
                 <div
                     key={i}
                     className={
-                        getClassName(
-                            table.classNames?.row?.useDefault!,
-                            tableDefault.classNames?.row?.name!,
-                            table.classNames?.row?.name!,
-                            table.visible
-                        )
+                        getClassName(tableDefault,
+                            table,
+                            'row')
                     }
                 >
                     {getRenderedRowsInner(table, i)}
@@ -103,15 +100,29 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
     return (
         table.fields.map((field, index) => {
 
-            if(field.createRecord) {
-                return field.createRecord(table.records![rowIndex])
-            }
             const width = formatColWidth(field);
             const colStyle = {
                 ...field.styles,
                 maxWidth: width,
                 minWidth: width,
             }
+
+            if(field.createRecord) {
+                return (
+                    <div
+                        className={
+                            getClassName(tableDefault,
+                                table,
+                                'cell')
+                        }
+                        key={field.name! + index + '' + rowIndex}
+                        style={colStyle}
+                    >
+                        {field.createRecord(table.records![rowIndex])}
+                    </div>
+                )
+            }
+
             if (field.type) {
                 const recordKey = field.name ? field.name : field.type!;
 
@@ -119,10 +130,9 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
                     <div
                         className={
                             getClassName(
-                                table.classNames?.select?.useDefault!,
-                                tableDefault.classNames?.select?.name!,
-                                table.classNames?.select?.name!,
-                                table.visible
+                                tableDefault,
+                                table,
+                                'select'
                             )
                         }
                         key={field.name! + index + '' + rowIndex}
@@ -141,11 +151,15 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
                     >
                         <div
                             className={
-                                getClassName(table.classNames?.selectSquare?.useDefault!, tableDefault.classNames?.selectSquare?.name!, table.classNames?.selectSquare?.name!)
+                                getClassName(tableDefault,
+                                table,
+                                'select')
                             }
                         >
                             {(field.allCheckbox || table.records![rowIndex][recordKey]) && <div
-                                className={getClassName(table.classNames?.selectCheckMark?.useDefault!, tableDefault.classNames?.selectCheckMark?.name!, table.classNames?.selectCheckMark?.name!)}
+                                className={ getClassName(tableDefault,
+                                    table,
+                                    'selectCheckMark')}
                             >
                             </div>}
                         </div>
@@ -155,12 +169,9 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
             return (
                 <div
                     className={
-                        getClassName(
-                            table.classNames?.cell?.useDefault!,
-                            tableDefault.classNames?.cell?.name!,
-                            table.classNames?.cell?.name!,
-                            table.visible
-                        )
+                        getClassName(tableDefault,
+                            table,
+                            'cell')
                     }
                     key={field.name! + index + '' + rowIndex}
                     style={colStyle}
