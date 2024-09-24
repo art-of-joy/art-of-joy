@@ -6,16 +6,24 @@ export const getClassName = (
     visibility: boolean = true
 ): string => {
     let resultClassName = '';
-    console.log(key, props.classNames[key])
-    if (props && props.classNames && props.classNames[key].useDefaultClass)
-        if (props.classNames[key].name === defaultProps.classNames[key].name)
-           resultClassName = defaultProps.classNames[key].name;
-        else
-           resultClassName = `${defaultProps.classNames[key].name} ${props.classNames[key].name}`;
-    else
-        if (props.classNames[key].name)
-           resultClassName = props.classNames[key].name
-    if(!visibility)
+    if (props && props.classNames && props.classNames[key].useDefaultClass) {
+        if (props.classNames[key].name === defaultProps.classNames[key].name) {
+            resultClassName = defaultProps.classNames[key].name;
+        }
+        else {
+            resultClassName = `${defaultProps.classNames[key].name} ${props.classNames[key].name}`;
+        }
+    }
+
+    else {
+        if (props && props.classNames && props.classNames[key] && props.classNames[key].name) {
+            resultClassName = props.classNames[key].name
+        }
+    }
+
+    if(!visibility) {
         resultClassName = resultClassName + " " +styles.hide
+    }
+
     return resultClassName
 }

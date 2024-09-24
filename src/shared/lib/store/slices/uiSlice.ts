@@ -4,8 +4,9 @@ import {tablePropsInterface} from "../../../ui/Table/model/types";
 import {innerHintInterface} from "../../../ui/Hint/model/types";
 import {inputTextPropsInterface} from "../../../ui/formItems/InputText/model/types";
 import {innerDataSourceInterface} from "../../../ui/DataSource/model/types";
+import {innerInputFileInterface} from "../../../ui/formItems/inputFile/model/types";
 
-export type elementInterfaces = tablePropsInterface | innerHintInterface | inputTextPropsInterface | innerDataSourceInterface
+export type elementInterfaces = tablePropsInterface | innerHintInterface | inputTextPropsInterface | innerDataSourceInterface | innerInputFileInterface
 
 const initialState:Record<string, elementInterfaces> = {}
 

@@ -21,6 +21,7 @@ export const Hint = (props:hintInterface) => {
     })
 
     const  getClassNameByKey = useCallback((key: string) => {
+        // console.log({resultProps, defaultHint, key, className: resultProps.className[key].name })
         return getClassName(defaultHint, resultProps, key)
     }, [defaultHint, resultProps])
 
@@ -28,7 +29,7 @@ export const Hint = (props:hintInterface) => {
         <div
             data-id={resultProps.id}
             key={resultProps.id}
-            style={{...resultProps.className?.hintWrapper!.style, ...resultProps.styles}}
+            style={{...resultProps.classNames?.hintWrapper!.style, ...resultProps.styles}}
             className={
                 (resultProps.hintIcon ? '' : getClassNameByKey('hintIcon')) + " " +
                 (resultProps.status == 'warning' && getClassNameByKey('warningIcon')) + " " +
@@ -40,7 +41,7 @@ export const Hint = (props:hintInterface) => {
             {resultProps.hintIcon}
             <div
                 className={getClassNameByKey('hintInner')}
-                style={resultProps.className?.hintInner?.style}
+                style={resultProps.classNames?.hintInner?.style}
             >
                 {resultProps.hintInner}
             </div>

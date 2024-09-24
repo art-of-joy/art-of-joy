@@ -87,7 +87,7 @@ export const InputText:React.FC<inputTextPropsInterface>= (props) => {
             className={getClassNamesByKey('hintWrapper')}
             style={resultProps.classNames?.hintWrapper?.style}
         >
-            { resultProps.invalidValidatorsIndexes && resultProps.invalidValidatorsIndexes.length !== 0 ? getHintElement(resultProps) : '' }
+            { resultProps.invalidValidatorsIndexes && resultProps.invalidValidatorsIndexes.length !== 0 ? getHintElement(resultProps) : ''}
             <div
                 className={
                     getClassNamesByKey('inputWrapper')  + ' ' +

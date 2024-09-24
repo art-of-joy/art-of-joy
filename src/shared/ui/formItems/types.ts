@@ -2,7 +2,7 @@ import {ReactNode} from "react";
 import {hintInterface} from "../Hint/model/types";
 import {innerInputTextPropsInterface} from "./InputText/model/types";
 
-export type inputValueType = string | number | Date | Record<string, any> | undefined | boolean
+export type inputValueType = string | number | Date | Record<string, any> | undefined | boolean | FileList | null
 
 export type formItemsInterfaces = innerInputTextPropsInterface;
 

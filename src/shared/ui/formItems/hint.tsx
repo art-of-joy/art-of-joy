@@ -28,7 +28,7 @@ export const getHintElement = (props: formItemsInterfaces): ReactNode => {
             id={'hint_' + props.id}
             key={'hint_' + props.id}
             status={'error'}
-            className={{hintInner: {style: {flexWrap: 'wrap', width: 250}}}}
+            classNames={{hintInner: {style: {flexWrap: 'wrap', width: 250}}}}
         />
     )
 }

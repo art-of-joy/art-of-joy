@@ -73,7 +73,7 @@
     border-radius: 5px;
     padding: 5px;
     left: calc(100% + 10px);
-    border: 1px solid $green;
+    border: 1px solid $blue;
     font-family: sans-serif;
     background: $white;
     z-index: 3;
@@ -84,7 +84,7 @@
       top: 50%;
       transform: translateY(-50%);
       border: 3px solid transparent;
-      border-right: 5px solid #0f9651;
+      border-right: 5px solid $blue;
     }
   }
 

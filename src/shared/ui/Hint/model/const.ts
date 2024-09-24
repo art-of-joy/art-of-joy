@@ -2,7 +2,7 @@ import {innerHintInterface} from "./types";
 import styles from '../ui/hint.scss'
 export const defaultHint: innerHintInterface = {
     id: "hint",
-    className:{
+    classNames:{
         hintWrapper:{name: styles.hint__wrapper, useDefault:true},
         hintIcon: {name: styles['hint__icon'], useDefault:true},
         hintInner: {name: styles['hint__inner'], useDefault:true},

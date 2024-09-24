@@ -2,7 +2,7 @@ import {className, innerMainProps, mainProps} from "../../../lib/store/types/pro
 import {ReactNode} from "react";
 
 export interface hintInterface extends mainProps{
-    className?:{
+    classNames?:{
         hintWrapper?:className
         hintIcon?: className
         hintInner?: className

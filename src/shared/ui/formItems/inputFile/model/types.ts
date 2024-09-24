@@ -10,7 +10,7 @@ export interface inputFileInterface extends mainProps, formItemInterface{
         inputActive?: className
     }
     innerLabel?: ReactNode | ReactNode[],
-    value?:  FileList,
+    value?:  FileList | null | undefined,
     onChangeInput?(files: FileList | null | undefined): void
 }
 export interface innerInputFileInterface extends innerMainProps, inputFileInterface, innerFormItemInterface {
