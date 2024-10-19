@@ -9,9 +9,10 @@ export interface inputFileInterface extends mainProps, formItemInterface{
         inputWrapper?: className
         inputActive?: className
     }
-    innerLabel?: ReactNode | ReactNode[],
+    children?: ReactNode,
     value?:  FileList | null | undefined,
     onChangeInput?(files: FileList | null | undefined): void
+
 }
 export interface innerInputFileInterface extends innerMainProps, inputFileInterface, innerFormItemInterface {
     isDragging:boolean

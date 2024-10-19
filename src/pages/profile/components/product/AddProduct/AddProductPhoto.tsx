@@ -1,8 +1,8 @@
 import React from 'react';
-import {readFileAsArrayBuffer, readFileAsDataURL} from "../../../../features/files/fileReader";
-import {InputFile} from "../../../../shared/ui/formItems/inputFile";
-import {Slider} from "../../../../shared/ui/Slider/ui";
-
+import {readFileAsArrayBuffer, readFileAsDataURL} from "../../../../../features/files/fileReader";
+import {InputFile} from "../../../../../shared/ui/formItems/inputFile";
+import {Slider} from "../../../../../shared/ui/Slider/ui";
+import styles from './AddProductPhoto.scss'
 export type ProductImageData = {
     binary?: Uint8Array
     dataUrl?: string
@@ -12,9 +12,11 @@ export type ProductImageData = {
 
 export type ProductImageProps = {
     imagesData: ProductImageData[]
+    record: Record<string, any>
+    index: number
 }
 
-export const AddProductPhoto: React.FC<ProductImageProps> = ({  imagesData }) => {
+export const AddProductPhoto: React.FC<ProductImageProps> = ({  imagesData, record, index }) => {
     const [filesArray, setFilesArray] = React.useState<ProductImageData[]>([]);
     const handleFileChange = async (files: FileList | undefined | null) => {
         const newFilesArray: ProductImageData[] = []
@@ -50,21 +52,26 @@ export const AddProductPhoto: React.FC<ProductImageProps> = ({  imagesData }) =>
         setFilesArray(newFilesArray)
     };
 
-
     return (
-        <>
-            { filesArray.length > 0 ? (<Slider>
-                {filesArray.map((data, index) => {
-                    return (
-                        <img alt={data.fileName} key={'imageData'+index} src={data.dataUrl} />
-                    )
-                })}
-                </Slider>) :
-                (<InputFile onChangeInput={(files) => handleFileChange(files)}/>)
+        <React.Fragment>
+            {
+                filesArray.length === 0 ? (
+                    <InputFile id={'addPhoto'+index} onChangeInput={(files) => handleFileChange(files)}/>) :
+                    (
+                        <React.Fragment>
+                            <Slider>
+                                {filesArray.map((data, index) => {
+                                    return (
+                                        <img className={styles.addProduct__image} alt={data.fileName} key={'imageData'+index} src={data.dataUrl} />
+                                    )
+                                })}
+                            </Slider>
+                        </React.Fragment>
 
+                    )
             }
 
-        </>
+        </React.Fragment>
     );
 };
 

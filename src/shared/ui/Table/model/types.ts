@@ -11,7 +11,7 @@ export interface field extends mainProps {
     value: number
     unit: 'px' | '%'
   }
-  createRecord?(record:Record<string, any>): ReactNode | undefined
+  createRecord?(record:Record<string, any>, rowNum:number): ReactNode | undefined
   valueMap?: Record<string, ReactNode>
 }
 

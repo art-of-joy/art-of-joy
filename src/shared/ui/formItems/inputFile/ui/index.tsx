@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {inputFileInterface} from "../model/types";
 import {defaultInputFile} from "../model/const";
 import {store} from "../../../../lib/store/store";
@@ -11,22 +11,26 @@ import {createElem, setProps} from "../../../../lib/store/slices/uiSlice";
 export const InputFile:React.FC<inputFileInterface> = (props) => {
 
     const [id] = useState(idGeneration(defaultInputFile.id!));
-    let inputFileProps = getInnerProps(defaultInputFile, props);
+    let inputFileProps = useMemo(() => getInnerProps(defaultInputFile, props), [props]);
 
     const resultProps = getResultProps("ui", props.id, inputFileProps, id);
 
-    useEffect(() => {
-        store.dispatch(createElem(resultProps));
-    }, []);
-    useEffect(() => {
-            if (resultProps.onChangeInput) {
-                resultProps.onChangeInput(resultProps.value);
-            }
-    }, [resultProps.value]);
+
 
     const getClassNameByKey = useCallback((key: string) => {
         return getClassName(defaultInputFile, resultProps, key)
     }, [resultProps, defaultInputFile])
+
+    useEffect(() => {
+        store.dispatch(createElem(resultProps));
+    }, []);
+
+    useEffect(() => {
+        if (resultProps.onChangeInput) {
+            resultProps.onChangeInput(resultProps.value);
+        }
+    }, [resultProps.value]);
+
 
     return (
         <div
@@ -36,7 +40,8 @@ export const InputFile:React.FC<inputFileInterface> = (props) => {
             style={resultProps.styles}
         >
             <input
-                id={'file_' + resultProps.id} type={"file"}
+                id={'file_' + resultProps.id}
+                type={"file"}
                 className={getClassNameByKey('input')}
                 multiple={true}
                 draggable={true}
@@ -68,16 +73,23 @@ export const InputFile:React.FC<inputFileInterface> = (props) => {
             >
 
                 {
-                    resultProps.innerLabel ?
-                        React.Children.toArray(resultProps.innerLabel)
-                            .map((child, index) => (
-                                <React.Fragment key={"childWrapperFile" + resultProps.id + index}>{child}</React.Fragment>
-                            ))
-                        : resultProps.value == undefined ?
-                            resultProps.isDragging ? <div>Отпустите файлы, чтоб загрузить их</div> : <div>Перетащите файлы, чтоб загрузить их</div>
-                            : Array.from(resultProps.value).map((file, index) => {
-                                return <div style={{padding: '10px 0'}} key={'fileName'+index}>Имя выбранного файла: {file.name}</div>
-                            })
+                    (resultProps.children &&
+                            React.Children.toArray(resultProps.children)
+                                .map((child, index) => (
+                                    <React.Fragment key={"childWrapperFile" + resultProps.id + index}>{child}</React.Fragment>
+                                ))
+                        )
+                }
+                {
+                    (!resultProps.children &&
+                        (
+                            resultProps.value == undefined ?
+                                (resultProps.isDragging ? <div>Отпустите файлы, чтоб загрузить их</div> : <div>Перетащите файлы, чтоб загрузить их</div>)
+                                    : Array.from(resultProps.value).map((file, index) => {
+                                        return <div style={{padding: '10px 0'}} key={'fileName'+index}>Имя выбранного файла: {file.name}</div>
+                                    })
+                        )
+                    )
                 }
             </label>
         </div>

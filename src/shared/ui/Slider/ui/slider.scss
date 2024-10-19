@@ -1,0 +1,92 @@
+@import "src/app/styles/vars";
+
+.slider {
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 0 20px;
+    &__overflow {
+      overflow: hidden;
+      width: 90%;
+    }
+    &__inner {
+      display: flex;
+      transition: all 0.3s ease-in;
+    }
+  }
+  &__pagination {
+    &__dot {
+      width: 15px;
+      height: 15px;
+      border: 1px solid $blue;
+      border-radius: 50%;
+      cursor: pointer;
+      &--active {
+        background: $blue;
+      }
+    }
+    &__wrapper {
+      display: flex;
+      gap: 5px;
+      margin: 5px 0 0 0;
+      justify-content: center;
+    }
+  }
+  &__arrow {
+    position: relative;
+    &--left, &--right {
+      position: absolute;
+      top: 50%;
+      height: 20px;
+      width: 12px;
+      cursor: pointer;
+    }
+    &--left {
+      left: 0;
+      transform: translateY(-50%);
+      &::before, &::after {
+        position: absolute;
+        content: '';
+        width: 2px;
+        height: 10px;
+        background: $blue;
+        border-radius: 5px;
+      }
+      &::before {
+        top: 3px;
+        left: 5px;
+        transform: rotate(45deg);
+      }
+      &::after {
+        top: 9px;
+        left: 5px;
+        transform: rotate(-45deg);
+      }
+    }
+    &--right {
+      right: 0;
+      transform: translateY(-50%);
+      &::before, &::after {
+        position: absolute;
+        content: '';
+        width: 2px;
+        height: 10px;
+        background: $blue;
+        border-radius: 5px;
+      }
+      &::before {
+        top: 3px;
+        right: 4px;
+        transform: rotate(-45deg);
+      }
+      &::after {
+        top: 9px;
+        right: 4px;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+}

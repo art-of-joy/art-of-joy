@@ -5,6 +5,8 @@ export interface SliderProps extends mainProps {
     children?: React.ReactNode[]
     classNames?: {
         wrapper?: className
+        wrapperOverflow?: className
+        wrapperInner?: className
         arrow?: className
         arrowLeft?: className
         arrowRight?: className

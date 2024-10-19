@@ -82,6 +82,7 @@ export const getRenderedRows = (tableProps: innerTablePropsInterface): ReactNode
                             table,
                             'row')
                     }
+                    style={tableProps.classNames?.row?.style}
                 >
                     {getRenderedRowsInner(table, i)}
                 </div>
@@ -103,6 +104,7 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
             const width = formatColWidth(field);
             const colStyle = {
                 ...field.styles,
+                ...tableProps.classNames?.cell?.style,
                 maxWidth: width,
                 minWidth: width,
             }
@@ -118,7 +120,7 @@ export const getRenderedRowsInner = (tableProps: innerTablePropsInterface, rowIn
                         key={field.name! + index + '' + rowIndex}
                         style={colStyle}
                     >
-                        {field.createRecord(table.records![rowIndex])}
+                        {field.createRecord(table.records![rowIndex], rowIndex)}
                     </div>
                 )
             }

@@ -98,7 +98,6 @@ export const onDragStartHandler = (e: React.DragEvent<HTMLElement>, id: string) 
 
 export const onDragHandler = (e: React.DragEvent<HTMLElement>, props: innerTablePropsInterface, index: number) => {
     const width = props.currentWidth! + (e.clientX - props.currentX!);
-    console.log(width)
     if(width > 0)
         setFieldWidth(props.id!, index, width);
 }
@@ -225,7 +224,6 @@ export const getFieldInnerLayout = (props: innerTablePropsInterface, index: numb
 
                        return newField
                    });
-                    console.log(newFields)
                    store.dispatch(setProps({id:props.id!, key:"fields", value:newFields}))
                    setAllCheckBoxByName(props.id!, field);
                }}
